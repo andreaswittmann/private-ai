@@ -5,7 +5,33 @@ This directory contains architectural documentation and diagrams for the LibreCh
 ## Files
 
 - **`architecture.md`**: Detailed technical architecture documentation
-- **`network-architecture.txt`**: ASCII network diagram showing component relationships
+- **`aws-architecture.drawio`**: AWS infrastructure architecture diagram (view on [diagrams.net](https://app.diagrams.net))
+- **`docker-architecture.drawio`**: Docker container architecture and networking diagram (view on [diagrams.net](https://app.diagrams.net))
+
+## Viewing the Diagrams
+
+The `.drawio` files can be viewed and edited in several ways:
+
+1. **Online**: Upload to [diagrams.net](https://app.diagrams.net) (formerly draw.io)
+2. **VS Code**: Install the "Draw.io Integration" extension
+3. **Desktop**: Download the desktop app from [diagrams.net](https://www.diagrams.net/)
+4. **GitHub**: GitHub will show a preview of DrawIO files directly in the browser
+
+## Diagram Contents
+
+### AWS Architecture Diagram (`aws-architecture.drawio`)
+- Complete AWS infrastructure layout
+- EC2 instance with security groups and IAM roles
+- AWS Bedrock integration
+- Network topology and access patterns
+- Security boundaries and data flow
+
+### Docker Architecture Diagram (`docker-architecture.drawio`)
+- Container orchestration with Docker Compose
+- Service dependencies and networking
+- Port mappings and volume mounts
+- Optional RAG/Ollama components
+- External API integrations
 
 ## Architecture Overview
 
