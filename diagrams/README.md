@@ -5,17 +5,19 @@ This directory contains architectural documentation and diagrams for the LibreCh
 ## Files
 
 - **`architecture.md`**: Detailed technical architecture documentation
-- **`aws-architecture.drawio`**: AWS infrastructure architecture diagram (view on [diagrams.net](https://app.diagrams.net))
-- **`docker-architecture.drawio`**: Docker container architecture and networking diagram (view on [diagrams.net](https://app.diagrams.net))
+- **`aws-architecture.drawio`**: AWS infrastructure architecture diagram ✅ *Fixed rendering issues*
+- **`docker-architecture.drawio`**: Docker container architecture and networking diagram ✅ *Fixed rendering issues*
 
 ## Viewing the Diagrams
 
 The `.drawio` files can be viewed and edited in several ways:
 
-1. **Online**: Upload to [diagrams.net](https://app.diagrams.net) (formerly draw.io)
-2. **VS Code**: Install the "Draw.io Integration" extension
-3. **Desktop**: Download the desktop app from [diagrams.net](https://www.diagrams.net/)
-4. **GitHub**: GitHub will show a preview of DrawIO files directly in the browser
+1. **Online**: Upload to [diagrams.net](https://app.diagrams.net) (formerly draw.io) ⭐ *Recommended*
+2. **GitHub**: GitHub now displays DrawIO files directly in the browser ✅ *Now working correctly*
+3. **VS Code**: Install the "Draw.io Integration" extension
+4. **Desktop**: Download the desktop app from [diagrams.net](https://www.diagrams.net/)
+
+> **Note**: The diagrams have been fixed to resolve XML formatting issues that previously prevented proper rendering in GitHub and diagrams.net viewers.
 
 ## Diagram Contents
 
