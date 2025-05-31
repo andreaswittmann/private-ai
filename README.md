@@ -62,6 +62,25 @@ private-ai/
    - Complete each checkpoint before proceeding
    - Document your experience in real-time
 
+## 📖 Documentation Formats
+
+The main workflow is available in multiple formats:
+
+- **`librechat-aws-deployment.org`** - Interactive org-mode file with live-scripting capabilities (F4 execution)
+- **`librechat-aws-deployment.html`** - Styled HTML version using ReadTheOrg theme for web viewing
+- **Copy-paste friendly** - All commands can be executed in any terminal environment
+
+### HTML Export
+
+The project includes a customized ReadTheOrg theme (`aw-org-html-themes/`) for beautiful HTML documentation:
+
+```bash
+# Export org file to HTML (requires Emacs)
+emacs --batch --eval "(progn (find-file \"librechat-aws-deployment.org\") (org-html-export-to-html))"
+```
+
+The HTML version provides the same content with professional styling, table of contents, and responsive design suitable for sharing and web viewing.
+
 ## 🎓 Implementation Approaches
 
 ### Live-Scripting Method (Primary Demonstration)
