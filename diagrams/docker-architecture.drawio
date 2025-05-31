@@ -1,0 +1,156 @@
+<mxfile host="app.diagrams.net" modified="2025-01-25T00:00:00.000Z" agent="5.0" etag="xyz2" version="24.7.17">
+  <diagram name="Docker-Compose-Architecture" id="docker-compose">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="docker-host" value="Docker Host (EC2 Instance)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1080" height="740" />
+        </mxCell>
+        
+        <mxCell id="docker-network" value="Docker Network: librechat_default" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f3ff;strokeColor=#0066cc;fontSize=12;fontStyle=1;verticalAlign=top;align=center;" vertex="1" parent="1">
+          <mxGeometry x="80" y="100" width="1000" height="620" />
+        </mxCell>
+        
+        <mxCell id="frontend-section" value="Frontend Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="120" y="140" width="280" height="160" />
+        </mxCell>
+        
+        <mxCell id="nginx-container" value="nginx:1.27.0-alpine&#xa;LibreChat-NGINX&#xa;&#xa;• SSL Termination&#xa;• Reverse Proxy&#xa;• Security Headers&#xa;• Port 80 → 443 redirect&#xa;&#xa;Volumes:&#xa;• nginx.conf&#xa;• SSL certificates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="140" y="170" width="240" height="110" />
+        </mxCell>
+        
+        <mxCell id="app-section" value="Application Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="440" y="140" width="300" height="160" />
+        </mxCell>
+        
+        <mxCell id="librechat-api" value="ghcr.io/danny-avila/librechat-dev-api&#xa;LibreChat-API&#xa;&#xa;• Node.js/React Application&#xa;• Port 3080&#xa;• AWS Bedrock Integration&#xa;• Environment Variables&#xa;&#xa;Volumes:&#xa;• librechat.yaml&#xa;• .env&#xa;• uploads&#xa;• logs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="460" y="170" width="260" height="110" />
+        </mxCell>
+        
+        <mxCell id="data-section" value="Data Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="780" y="140" width="280" height="160" />
+        </mxCell>
+        
+        <mxCell id="mongodb-container" value="mongo:latest&#xa;chat-mongodb&#xa;&#xa;• NoSQL Database&#xa;• Port 27017&#xa;• No Authentication (dev)&#xa;• Persistent Storage&#xa;&#xa;Volumes:&#xa;• ./data-node:/data/db&#xa;&#xa;Command:&#xa;• mongod --noauth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="800" y="170" width="240" height="110" />
+        </mxCell>
+        
+        <mxCell id="search-section" value="Search Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="120" y="340" width="280" height="160" />
+        </mxCell>
+        
+        <mxCell id="meilisearch-container" value="getmeili/meilisearch:v1.12.3&#xa;chat-meilisearch&#xa;&#xa;• Full-text Search Engine&#xa;• Port 7700&#xa;• Analytics Disabled&#xa;• Master Key Protected&#xa;&#xa;Volumes:&#xa;• ./meili_data_v1.12:/meili_data&#xa;&#xa;Environment:&#xa;• MEILI_NO_ANALYTICS=true" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="140" y="370" width="240" height="110" />
+        </mxCell>
+        
+        <mxCell id="rag-section" value="RAG Layer (Optional)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="440" y="340" width="300" height="160" />
+        </mxCell>
+        
+        <mxCell id="rag-api-container" value="ghcr.io/danny-avila/librechat-rag-api-dev-lite&#xa;rag_api&#xa;&#xa;• Document Processing&#xa;• Vector Search&#xa;• Port 8000&#xa;• Python FastAPI&#xa;&#xa;Environment:&#xa;• DB_HOST=vectordb&#xa;• RAG_PORT=8000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="460" y="370" width="260" height="110" />
+        </mxCell>
+        
+        <mxCell id="vectordb-section" value="Vector Database (Optional)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="780" y="340" width="280" height="160" />
+        </mxCell>
+        
+        <mxCell id="vectordb-container" value="ankane/pgvector:latest&#xa;vectordb&#xa;&#xa;• PostgreSQL + pgvector&#xa;• Vector Embeddings Storage&#xa;• Port 5432&#xa;&#xa;Environment:&#xa;• POSTGRES_DB=mydatabase&#xa;• POSTGRES_USER=myuser&#xa;• POSTGRES_PASSWORD=mypassword&#xa;&#xa;Volumes:&#xa;• pgdata2:/var/lib/postgresql/data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="800" y="370" width="240" height="110" />
+        </mxCell>
+        
+        <mxCell id="ollama-section" value="Local AI Models (Optional)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="120" y="540" width="280" height="160" />
+        </mxCell>
+        
+        <mxCell id="ollama-container" value="ollama/ollama:latest&#xa;ollama&#xa;&#xa;• Local LLM Server&#xa;• Port 11434&#xa;• Model Storage&#xa;• CPU/GPU Support&#xa;&#xa;Volumes:&#xa;• ollama_data:/root/.ollama&#xa;&#xa;Models:&#xa;• llama3.1, mistral, etc." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="140" y="570" width="240" height="110" />
+        </mxCell>
+        
+        <mxCell id="external-services" value="External Services" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="440" y="540" width="620" height="160" />
+        </mxCell>
+        
+        <mxCell id="aws-bedrock-ext" value="AWS Bedrock&#xa;&#xa;• Claude 3.5 Sonnet&#xa;• Nova Models&#xa;• DeepSeek Models&#xa;• Instance Profile Auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9999;strokeColor=#cc0000;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="460" y="570" width="120" height="110" />
+        </mxCell>
+        
+        <mxCell id="openai-ext" value="OpenAI API&#xa;&#xa;• GPT-4o&#xa;• GPT-4o-mini&#xa;• API Key Auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9999;strokeColor=#cc0000;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="600" y="570" width="120" height="110" />
+        </mxCell>
+        
+        <mxCell id="anthropic-ext" value="Anthropic API&#xa;&#xa;• Claude 3.5 Sonnet&#xa;• Claude 3.5 Haiku&#xa;• API Key Auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9999;strokeColor=#cc0000;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="740" y="570" width="120" height="110" />
+        </mxCell>
+        
+        <mxCell id="google-ext" value="Google API&#xa;&#xa;• Gemini Pro&#xa;• Gemini Flash&#xa;• API Key Auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9999;strokeColor=#cc0000;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="880" y="570" width="120" height="110" />
+        </mxCell>
+        
+        <mxCell id="port-80" value="80:80" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="40" height="20" />
+        </mxCell>
+        
+        <mxCell id="port-443" value="443:443" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="50" height="20" />
+        </mxCell>
+        
+        <mxCell id="port-3080" value="3080:3080" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="240" width="60" height="20" />
+        </mxCell>
+        
+        <mxCell id="conn1" value="HTTP/HTTPS" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="nginx-container" target="librechat-api">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="250" as="sourcePoint" />
+            <mxPoint x="450" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="conn2" value="MongoDB" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="librechat-api" target="mongodb-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="250" as="sourcePoint" />
+            <mxPoint x="790" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="conn3" value="Search" style="endArrow=classic;html=1;rounded=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="librechat-api" target="meilisearch-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="520" y="320" as="sourcePoint" />
+            <mxPoint x="570" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="conn4" value="RAG API" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="librechat-api" target="rag-api-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="320" as="sourcePoint" />
+            <mxPoint x="610" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="conn5" value="Vector DB" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="rag-api-container" target="vectordb-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="450" as="sourcePoint" />
+            <mxPoint x="790" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="conn6" value="Ollama API" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="rag-api-container" target="ollama-container">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="520" as="sourcePoint" />
+            <mxPoint x="450" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="conn7" value="API Calls" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="librechat-api" target="aws-bedrock-ext">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="640" y="320" as="sourcePoint" />
+            <mxPoint x="690" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
