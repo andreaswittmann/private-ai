@@ -106,6 +106,27 @@ Commands are executed by positioning cursor on lines and pressing **F4** to send
 - Copy diagrams to `diagrams/`
 
 ### Week 2: Testing & Validation
+
+## 🎯 **CURRENT MILESTONE** (2025-05-31)
+**✅ Step 3 COMPLETED**: Configuration migration
+- ✅ Terraform configs moved to `terraform/`
+- ✅ Docker configs consolidated to `configs/`
+- ✅ Working diagrams restored from original source
+- ✅ DrawIO diagram rendering errors fixed
+- ✅ Repository structure validated and committed
+
+**🚀 NEXT**: Diagram Architecture Updates
+
+---
+
+**Step 3.5**: Diagram Architecture Updates *(CURRENT STEP)*
+- **Objective**: Modify diagrams to reflect current deployment architecture using Claude Code
+- Update `aws-architecture.drawio` with latest infrastructure components
+- Update `docker-architecture.drawio` with current container architecture  
+- Ensure diagrams accurately represent the librechat-aws-deployment.org workflow
+- Add any missing components (Bedrock integration, RAG setup, SSL configuration)
+- Validate diagram accuracy against actual deployment steps
+
 **Step 4**: End-to-end testing
 - Test complete workflow in fresh AWS environment
 - Document troubleshooting experiences

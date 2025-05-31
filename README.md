@@ -129,6 +129,30 @@ The `librechat-aws-deployment.org` file contains:
 - **Functional system**: Working HTTPS LibreChat with multi-model support and RAG capabilities
 - **Foundation for production**: Ready for enhancement with scaling, HA, and enterprise features
 
+## 🎯 Current Development Status *(2025-05-31)*
+
+### ✅ **COMPLETED**: Repository Foundation
+- ✅ **Step 1-3**: Repository structure, content migration, configuration consolidation
+- ✅ **Diagrams Restored**: Working DrawIO diagrams copied from original source
+- ✅ **XML Format Fixed**: Removed problematic file path comments causing rendering errors
+- ✅ **Baseline Established**: Stable foundation ready for development
+
+### 🚀 **CURRENT STEP**: Diagram Architecture Updates *(Step 3.5)*
+
+**Objective**: Modify diagrams to reflect current deployment architecture using Claude Code
+
+**Tasks**:
+- Update `aws-architecture.drawio` with latest infrastructure components
+- Update `docker-architecture.drawio` with current container architecture  
+- Ensure diagrams accurately represent the `librechat-aws-deployment.org` workflow
+- Add missing components (Bedrock integration, RAG setup, SSL configuration)
+- Validate diagram accuracy against actual deployment steps
+
+### 📋 **UPCOMING**: Testing & Validation *(Steps 4-5)*
+- End-to-end testing in fresh AWS environment
+- Documentation refinement and final validation
+- Repository publication readiness
+
 ## 🤝 Contributing
 
 This repository focuses on demonstrating **privacy-focused AI deployment** through live-scripting methodology. Contributions should:
