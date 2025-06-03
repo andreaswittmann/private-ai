@@ -5,6 +5,7 @@
 #+TOC: headlines 4
 #+STARTUP: overview
 #+SETUPFILE: aw-org-html-themes/setup/theme-readtheorg-local.setup
+#+Include: "latex_setup.org"
 
 
 - *HTML Version:* [[file:librechat-aws-deployment.html][librechat-aws-deployment.html]]
@@ -22,18 +23,23 @@ This project demonstrates a solution—a fully self-hosted LibreChat deployment 
 
 ** The Live-Scripting Methodology
 
-This implementation uses the live-scripting methodology, which transforms static documentation into executable, interactive workflows. The core principle is simple: any code block in the documentation can be executed with a single keypress, creating a seamless bridge between documentation and execution.
+This deployment uses live-scripting methodology to transform static documentation into executable workflows. Code blocks can be executed directly in Emacs (F4 key) or copied to any terminal, creating a seamless bridge between documentation and execution.
 
-The deployment process follows a live-scripting methodology documented in this org-mode file. Live-scripting is a methodology for creating, sharing and consuming IT solutions through documentation-oriented workflows. The deployment exploits the consumption aspect of live-scripting, where commands are documented and can be executed interactively with F4 in Emacs or copied to a terminal for manual execution. This approach is based on the [live-scripting methodology](https://github.com/andreaswittmann/live-scripting) for interactive documentation and reproducible deployments.
+Based on the [live-scripting methodology](https://github.com/andreaswittmann/live-scripting), this approach enables:
 
-*** For Emacs Users - Complete Implementation
+- **Executable Documentation**: Code blocks remain current and functional
+- **Multi-Format Publishing**: Single source generates Org, HTML, and PDF outputs  
+- **Reproducible Deployments**: Consistent infrastructure deployment across environments
+- **Version Control Integration**: Plain-text format enables proper diff tracking
 
-Here's the complete Emacs Lisp function that enables live-scripting:
+*** Implementation Options
+
+**** Emacs Users
+Configure live-scripting with this Emacs Lisp function:
 
 #+begin_src emacs-lisp
-;; live-scripting mit vterm.
 (defun send-line-to-vterm ()
-  "Send region if active, or current line to vterm buffer. Then move to next line."
+  "Send region if active, or current line to vterm buffer."
   (interactive)
   (if (region-active-p)
       (send-region "*vterm*" (region-beginning) (region-end))
@@ -41,17 +47,13 @@ Here's the complete Emacs Lisp function that enables live-scripting:
     (send-region "*vterm*" (region-beginning) (region-end)))
   (deactivate-mark))
 
-;; Key bindings - choose what works best for the workflow
 (global-set-key [f4] 'send-line-to-vterm)
-;; Alternative binding:
-(global-set-key (kbd "S-<return>") 'send-line-to-vterm)
 #+end_src
 
-The F4 key (or Shift+Return) provides efficient execution, though any key combination can be configured for the workflow.
+**** Non-Emacs Users
+Copy code blocks to any terminal - the methodology maintains precision regardless of tools.
 
-*** For Non-Emacs Users
-
-The methodology works with any text editor and terminal combination - simply copy and paste code blocks into your terminal. The live-scripting approach maintains the same level of precision and reproducibility regardless of your tools.
+The deployment follows seven main phases from environment setup through advanced AI features, with each step documented using executable code blocks for reproducible deployment.
 
 ** Project Components
 
@@ -753,7 +755,7 @@ open https://$public_ip
 Name: Nova Agent
 Instruction: You are a helpful AI assistant that can use tools.
 
-Test-Case: Calculate the harmonic series for n=5 to a precicion of 10 digits.
+Test-Case: Calculate the harmonic series for n=5 to a precison of 10 digits.
 Test-Case: Find the square root of  999999937
 
 
@@ -893,7 +895,7 @@ This installs additional Ollama models for inference and tests their functionali
 
 #+begin_src bash
 # Listing: Advanced model deployment
-# Installing additional models for enhanced capabilities
+# Installing additional models for various use cases
 
 ssh EC2-LibreChat
 

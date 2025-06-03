@@ -2,6 +2,8 @@
 
 A containerized LibreChat deployment providing flexible privacy controls for AI interactions. Choose between fully local operation or hybrid cloud integration while maintaining complete control over your data and conversations.
 
+This project showcases a **live-scripting documentation approach** using Emacs Org-mode, where the complete deployment guide combines executable code blocks with comprehensive narrative, generating both styled HTML and professional PDF outputs from a single source.
+
 ## Project Motivation
 
 Current AI landscape developments create compelling reasons for self-hosted alternatives to cloud-only AI services. Vendor lock-in emerges as organizations become dependent on specific AI providers, limiting flexibility and potentially increasing costs over time. Privacy concerns intensify as sensitive data processing requirements conflict with external API usage, particularly in regulated industries or when handling confidential information.
@@ -15,6 +17,12 @@ Self-hosted deployment eliminates data transmission to third-party services, pro
 1. **Prerequisites**: AWS account with Bedrock access, Terraform, AWS CLI
 2. **Deploy**: Follow the complete workflow in [`librechat-aws-deployment.org`](librechat-aws-deployment.org)
 3. **Access**: HTTPS-enabled LibreChat with multiple AI models
+
+## Live-Scripting Documentation
+
+This project uses **live-scripting** methodology for executable documentation. Code blocks can be executed directly in Emacs or copied to any terminal for reproducible deployment.
+
+**Complete methodology details**: See [The Live-Scripting Methodology](librechat-aws-deployment.org#the-live-scripting-methodology) section in the deployment guide.
 
 ## LibreChat User Interface
 
