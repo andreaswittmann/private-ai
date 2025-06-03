@@ -4,9 +4,10 @@
 
 ### EC2 Instance
 - **Instance Type**: t3.medium (2 vCPU, 4 GB RAM) or larger
-- **AMI**: Amazon Linux 2023 (most recent version with SSM Agent pre-installed)
-- **Placement**: Default VPC in a public subnet
+- **AMI**: Amazon Linux 2023 (most recent version)
+- **Placement**: Default VPC in a public subnet with direct internet access
 - **User Data**: Optional bootstrap script to install Docker, Docker Compose
+- **SSH Access**: Direct SSH connectivity for development and administration
 
 ### Storage
 - **Root EBS Volume**: gp3, 20GB minimum
@@ -23,7 +24,6 @@
 ### IAM Role Configuration
 - **Role Name**: LibreChatInstanceRole
 - **Policies**:
-  - `AmazonSSMManagedInstanceCore` (for SSM Session Manager access)
   - Custom policy for AWS Bedrock:
     ```json
     {
@@ -46,6 +46,7 @@
 - **Inbound Rules**:
   - HTTP (80): Your IP Address/32
   - HTTPS (443): Your IP Address/32
+  - SSH (22): Your IP Address/32 (for direct access and VS Code Remote)
   - Portainer (9443): Your IP Address/32
   - All other inbound traffic: Denied
 - **Outbound Rules**:
@@ -53,13 +54,28 @@
 
 ## Access and Management
 
-### Systems Manager Session Manager
-- No inbound SSH port required
-- Access via AWS Console → Systems Manager → Session Manager
-- Port forwarding command for local development:
+### Direct SSH Access with VS Code Remote Development
+- **Primary Access Method**: Direct SSH using key-based authentication
+- **VS Code Remote Development**: Connect directly to the instance for development
+- **Connection Command**:
+  ```bash
+  ssh -i ~/.ssh/librechat_key ec2-user@<public-ip>
   ```
-  aws ssm start-session --target i-instanceid --document-name AWS-StartPortForwardingSession --parameters "portNumber=80,localPortNumber=8080"
+- **VS Code Remote SSH**: Use Remote-SSH extension to connect directly to the instance
+- **Port Forwarding**: Local port forwarding for development:
+  ```bash
+  ssh -i ~/.ssh/librechat_key -L 8080:localhost:3080 ec2-user@<public-ip>
   ```
+
+### VS Code Remote Development Integration
+- **Extension**: Remote - SSH extension for VS Code
+- **Features**:
+  - Direct file editing on the remote instance
+  - Terminal access within VS Code
+  - Port forwarding for local development
+  - Extensions running remotely on the instance
+- **Setup**: Configure SSH connection in VS Code using the same SSH key
+- **Workflow**: Seamless development experience with local IDE connected to remote infrastructure
 
 ## Application Layer
 
@@ -92,4 +108,4 @@
 - IAM role attached to EC2 provides the necessary permissions
 - Application uses AWS SDK with instance credentials for secure authentication
 
-This architecture prioritizes simplicity for a lab environment while maintaining security through SSM access and appropriate IAM permissions, with the stability of a fixed IP address via Elastic IP.
+This architecture prioritizes simplicity and direct access for development workflows, enabling seamless integration with modern development tools like VS Code Remote SSH, while maintaining security through SSH key-based authentication and appropriate security group restrictions.

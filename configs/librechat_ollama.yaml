@@ -1,0 +1,20 @@
+version: '1.0.0'
+
+endpoints:
+  custom:
+    - name: "Ollama"
+      apiKey: "ollama"
+      # If you're running Ollama in a separate container, use host.docker.internal
+      baseURL: "http://host.docker.internal:11434/v1/"
+      models:
+        default: [
+          "allenporter/xlam:7b",
+          "deepseek-r1:8b"
+        ]
+        fetch: true
+      titleConvo: true
+      titleModel: "current_model"
+      summarize: false
+      summaryModel: "current_model"
+      forcePrompt: false
+      modelDisplayLabel: "Ollama"

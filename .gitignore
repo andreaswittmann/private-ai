@@ -1,1 +1,63 @@
+# macOS system files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Credentials and sensitive files
+aws-credentials.json
+*.pem
+*.key
+.env
+.env.local
+.env.*.local
+
+# Terraform
+terraform/terraform.tfstate*
+terraform/tfplan*
+terraform/.terraform/
+*.tfvars
+
+# Docker
+.docker/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Node modules (if any)
+node_modules/
+
+# Python (if any)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Backup files
+*.bak
+*.backup
+*~

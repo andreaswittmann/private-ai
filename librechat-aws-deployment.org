@@ -7,17 +7,24 @@
 #+SETUPFILE: aw-org-html-themes/setup/theme-readtheorg-local.setup
 
 
-* Building a Privacy-Focused AI Assistant: My Personal Journey
+- *HTML Version:* [[file:librechat-aws-deployment.html][librechat-aws-deployment.html]]
 
-** Why This Project Matters to Me
 
-In an era where AI capabilities are rapidly expanding but privacy concerns remain paramount, I faced a personal challenge: How can I leverage powerful language models while maintaining complete control over my data and interactions? 
+* Building a Privacy-Focused AI Assistant
 
-This project represents my solution—a fully self-hosted LibreChat deployment with AWS Bedrock integration that demonstrates how to achieve enterprise-grade AI capabilities without sacrificing privacy. The journey combines my passion for privacy-preserving technology with the practical need for powerful AI assistance in daily work.
+** Project Overview and Privacy Philosophy
+
+In an era where AI capabilities are rapidly expanding but privacy concerns remain paramount, a fundamental challenge exists: How can powerful language models be leveraged while maintaining complete control over data and interactions? 
+
+This project demonstrates a solution—a fully self-hosted LibreChat deployment with AWS Bedrock integration that achieves enterprise-grade AI capabilities without sacrificing privacy. The implementation combines privacy-preserving technology with practical AI assistance requirements.
+
+
 
 ** The Live-Scripting Methodology
 
-This implementation uses my live-scripting methodology, which I developed to transform static documentation into executable, interactive workflows. The core principle is simple: any code block in the documentation can be executed with a single keypress, creating a seamless bridge between documentation and execution.
+This implementation uses the live-scripting methodology, which transforms static documentation into executable, interactive workflows. The core principle is simple: any code block in the documentation can be executed with a single keypress, creating a seamless bridge between documentation and execution.
+
+The deployment process follows a live-scripting methodology documented in this org-mode file. Live-scripting is a methodology for creating, sharing and consuming IT solutions through documentation-oriented workflows. The deployment exploits the consumption aspect of live-scripting, where commands are documented and can be executed interactively with F4 in Emacs or copied to a terminal for manual execution. This approach is based on the [live-scripting methodology](https://github.com/andreaswittmann/live-scripting) for interactive documentation and reproducible deployments.
 
 *** For Emacs Users - Complete Implementation
 
@@ -34,36 +41,38 @@ Here's the complete Emacs Lisp function that enables live-scripting:
     (send-region "*vterm*" (region-beginning) (region-end)))
   (deactivate-mark))
 
-;; Key bindings - choose what works best for you
+;; Key bindings - choose what works best for the workflow
 (global-set-key [f4] 'send-line-to-vterm)
 ;; Alternative binding:
 (global-set-key (kbd "S-<return>") 'send-line-to-vterm)
 #+end_src
 
-The F4 key (or Shift+Return) is my personal preference, but you can bind it to any key combination that suits your workflow.
+The F4 key (or Shift+Return) provides efficient execution, though any key combination can be configured for the workflow.
 
 *** For Non-Emacs Users
 
-The methodology works perfectly with any text editor and terminal combination - simply copy and paste code blocks into your terminal. The live-scripting approach maintains the same level of precision and reproducibility regardless of your tools.
+The methodology works with any text editor and terminal combination - simply copy and paste code blocks into your terminal. The live-scripting approach maintains the same level of precision and reproducibility regardless of your tools.
 
-** What We're Building Together
+** Project Components
 
 - **Complete privacy control**: Self-hosted LibreChat with AWS Bedrock models (Claude, Nova, DeepSeek)
 - **Production-ready foundation**: SSL/HTTPS, Docker containerization, infrastructure automation
 - **Advanced AI capabilities**: RAG functionality, multi-model support, document processing
-- **Reproducible methodology**: Live-scripting workflow that others can follow and adapt
+- **Reproducible methodology**: Live-scripting workflow for consistent deployment
 
-** Expected Journey Outcome
+** Expected Deployment Outcome
 
-By the end of this workflow, you'll have a functioning HTTPS-enabled LibreChat instance running on AWS, integrated with multiple Bedrock models, and enhanced with RAG capabilities - all under your complete control.
+This workflow produces a functioning HTTPS-enabled LibreChat instance running on AWS, integrated with multiple Bedrock models, and enhanced with RAG capabilities under complete user control.
 
 * Part 1: Foundation & Prerequisites
 
-** Personal Environment Setup
+** Environment Setup
 
-Let me start by establishing my development environment and validating the prerequisites.
+The following steps establish the development environment and validate the prerequisites.
 
 *** Setting the Project Foundation
+
+This establishes the base project directory and validates AWS network prerequisites.
 
 #+begin_src bash
 # Listing: Project environment setup
@@ -78,13 +87,21 @@ ls -la
 echo "Working in: $PROJECT_DIR"
 
 # Set AWS profile for this session
-export AWS_PROFILE=lab-a
-echo "AWS Profile: $AWS_PROFILE"
+export AWS_PROFILE=lab-a-north
+echo  $AWS_PROFILE
+
+## create default VPC if it does not exist
+aws ec2 create-default-vpc
+## check if the default vpc is created
+aws ec2 describe-vpcs --filters "Name=isDefault,Values=true" --query "Vpcs[0].VpcId" --output text
+
 #+end_src
+
+*Result:* Project environment is configured and AWS default VPC is available for deployment.
 
 *** Validating AWS Prerequisites
 
-Before proceeding, I need to confirm my AWS environment is properly configured for this deployment.
+This confirms AWS environment configuration for deployment requirements.
 
 #+begin_src bash
 # Listing: AWS environment validation
@@ -96,8 +113,8 @@ aws s3 ls
 # Verify AWS identity and permissions
 aws sts get-caller-identity
 
-# Check if AWS Session Manager plugin is available
-session-manager-plugin --version
+# Verify SSH key is available for EC2 access
+ls -la ~/.ssh/
 
 # Validate required tools are installed
 terraform --version
@@ -105,31 +122,20 @@ git --version
 docker --version
 #+end_src
 
-*** Understanding the Architecture
+*Result:* AWS credentials and required tools are validated for infrastructure deployment.
 
-This deployment creates a privacy-focused AI system with these key components:
+** Part 1 Summary
 
-- **AWS EC2 Instance**: Automated provisioning via Terraform
-- **LibreChat**: Containerized deployment with Docker Compose  
-- **AWS Bedrock Integration**: Multiple AI models (Claude, Nova, DeepSeek)
-- **RAG Capabilities**: Ollama integration for document processing
-- **Security Layer**: SSL/HTTPS, security groups, IAM roles
-
-** Checkpoint: Environment Ready
-
-At this point, I should have:
-- ✅ Project directory established
-- ✅ AWS credentials validated
-- ✅ Required tools confirmed available
-- ✅ Architecture understanding clear
+The foundation phase establishes the development environment and validates prerequisites. The project directory structure is configured, AWS credentials are verified, and required tools are confirmed operational. This groundwork enables reproducible infrastructure deployment through live-scripting methodology.
 
 * Part 2: Infrastructure as Code
+** Infrastructure Automation Benefits
 
-** Personal Reflection on Infrastructure Automation
-
-One of the most satisfying aspects of this project is the infrastructure automation. Rather than manually clicking through AWS consoles, I can reproduce the entire environment with code - perfect for experimenting, learning, and sharing.
+Infrastructure automation provides significant advantages over manual console interactions. The entire environment can be reproduced with code, enabling experimentation, learning, and knowledge sharing.
 
 *** SSH Key Generation for Secure Access
+
+This creates dedicated SSH keypairs for EC2 instance access and stores the public key for Terraform.
 
 #+begin_src bash
 # Listing: SSH key generation for EC2 access
@@ -139,7 +145,7 @@ cd "$PROJECT_DIR"
 
 # Generate a new SSH key pair specifically for LibreChat
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/librechat_key -N ""
-
+y
 # Display the public key for use in Terraform variables
 cat ~/.ssh/librechat_key.pub
 
@@ -148,7 +154,11 @@ export TF_VAR_SSH_PUBLIC_KEY="$(cat ~/.ssh/librechat_key.pub)"
 echo "SSH public key configured: $TF_VAR_SSH_PUBLIC_KEY"
 #+end_src
 
+*Result:* SSH keypair is generated and public key is exported for infrastructure provisioning.
+
 *** Terraform Configuration and Planning
+
+This prepares the Terraform configuration files and validates the infrastructure setup.
 
 #+begin_src bash
 # Listing: Terraform environment preparation
@@ -159,9 +169,9 @@ cd "$PROJECT_DIR/terraform"
 # Create terraform variables file with our configuration
 cat > terraform.tfvars << EOF
 # Generated tfvars file - $(date)
-aws_region       = "eu-central-1"
+aws_region       = "eu-north-1"
 instance_type    = "t3.medium"
-root_volume_size = 30
+root_volume_size = 100
 root_volume_type = "gp3"
 allowed_ip       = "0.0.0.0/0"
 ssh_public_key   = "${TF_VAR_SSH_PUBLIC_KEY}"
@@ -182,7 +192,11 @@ terraform fmt
 terraform validate
 #+end_src
 
+*Result:* Terraform configuration is initialized and validated for deployment.
+
 *** Infrastructure Deployment Planning
+
+This creates the deployment plan and reviews resource changes before applying them.
 
 #+begin_src bash
 # Listing: Terraform deployment planning
@@ -200,11 +214,14 @@ echo "Resources to be created:"
 cat tfplan.json | jq '.resource_changes[] | {address: .address, action: .change.actions[0]}'
 
 # Summary of planned changes
-echo "Deployment summary:"
 cat tfplan.json | jq '.resource_changes | group_by(.change.actions[0]) | map({action: .[0].change.actions[0], count: length})'
 #+end_src
 
+*Result:* Deployment plan is generated and resource changes are reviewed for approval.
+
 *** Infrastructure Deployment Execution
+
+This executes the Terraform plan to create the AWS infrastructure resources.
 
 #+begin_src bash
 # Listing: AWS infrastructure deployment
@@ -212,6 +229,8 @@ cat tfplan.json | jq '.resource_changes | group_by(.change.actions[0]) | map({ac
 
 # Execute the deployment plan
 terraform apply tfplan
+terraform apply
+yes
 
 # Capture and display outputs
 terraform output
@@ -221,12 +240,13 @@ aws ec2 describe-instances \
   --query 'Reservations[*].Instances[*].[InstanceId, InstanceType, Tags[?Key==`Name`]|[0].Value, State.Name]' \
   --output text
 
-# Get our instance details
+# Get our instance details - get only the first/latest instance ID
 instance_id=$(aws ec2 describe-instances \
-  --filters "Name=tag:Name,Values=EC2-LibreChat" \
+  --filters "Name=tag:Name,Values=EC2-LibreChat" "Name=instance-state-name,Values=running,pending,stopping,stopped" \
   --query 'Reservations[*].Instances[*].[InstanceId]' \
-  --output text | grep -v '^$')
+  --output text | head -n1)
 echo "Instance ID: $instance_id"
+
 
 public_ip=$(aws ec2 describe-instances \
   --instance-ids "$instance_id" \
@@ -235,7 +255,11 @@ public_ip=$(aws ec2 describe-instances \
 echo "Public IP: $public_ip"
 #+end_src
 
+*Result:* AWS infrastructure is deployed and EC2 instance details are captured for subsequent configuration.
+
 *** SSH Configuration for Easy Access
+
+This establishes convenient SSH access configuration and tests connectivity to the deployed instance.
 
 #+begin_src bash
 # Listing: SSH configuration setup
@@ -243,28 +267,157 @@ echo "Public IP: $public_ip"
 
 # Test initial SSH connection
 ssh -i ~/.ssh/librechat_key ec2-user@"$public_ip" 'whoami && pwd'
-
+yes
 # Create SSH config entry for easy access
+bbedit ~/.ssh/config # we may delete an old entry first, manually
 cat >> ~/.ssh/config << EOF
-
 # SSH over EC2 - LibreChat Privacy AI Project
 Host EC2-LibreChat
     HostName $public_ip
     User ec2-user
     IdentityFile ~/.ssh/librechat_key
 EOF
+## use a perl one-liner to grep these lines from the ssh-config file.
+perl -nE 'print if /Host EC2-LibreChat/ .. /yesEOF/' ~/.ssh/config
+#bbedit ~/.ssh/config
 
 # Test SSH with hostname
 ssh EC2-LibreChat 'whoami && date'
+
 #+end_src
 
-** Checkpoint: Infrastructure Operational
+*Result:* SSH configuration is established and remote access to the EC2 instance is verified.
 
-At this milestone, I have:
-- ✅ AWS EC2 instance running and accessible
-- ✅ SSH keys generated and configured
-- ✅ Network security properly configured
-- ✅ Infrastructure documented in code
+*** VS Code Remote Development Integration
+
+This enables remote development capabilities by connecting VS Code to the EC2 instance.
+
+#+begin_src bash
+# Listing: VS Code Remote SSH setup
+# Enabling seamless remote development experience
+
+# Install VS Code Remote-SSH extension (if not already installed)
+code --install-extension ms-vscode-remote.remote-ssh
+
+# Verify the extension is installed
+code --list-extensions | grep ms-vscode-remote.remote-ssh
+
+# Connect to the remote instance using VS Code command line
+code --folder-uri vscode-remote://ssh-remote+EC2-LibreChat/home/ec2-user
+code --folder-uri vscode-remote://ssh-remote+EC2-LibreChat/home/ec2-user
+
+# Now that VS Code is connected to the remote instance, install Docker extension from Microsoft via the UI
+# In the VS Code window that just opened (connected to EC2-LibreChat):
+# Press Cmd+Shift+P → Type "Extensions: Install Extension" → Search "Docker" → Install
+
+# Test direct SSH access
+ssh EC2-LibreChat 'whoami && pwd && uptime'
+#+end_src
+
+*Result:* VS Code Remote-SSH is configured for direct development access to the EC2 instance.
+
+** Use Case: Query Bedrock Model via AWS CLI
+
+This validates AWS Bedrock model access and tests various Claude models directly via CLI.
+
+#+begin_src bash
+# Listing: Testing AWS Bedrock model access
+# Verifying IAM permissions and model availability
+
+# Test Bedrock model listing from EC2 instance
+ssh EC2-LibreChat
+
+# Check aws cli
+aws --version
+
+# switch of the pager and list the available models
+export AWS_PAGER=""
+aws bedrock list-foundation-models  --region eu-central-1 
+aws bedrock list-foundation-models  --region eu-central-1  | grep modelName
+aws bedrock list-foundation-models  --region eu-central-1  | grep modelId
+aws bedrock list-foundation-models  --region eu-central-1 | grep anthropic
+aws bedrock list-foundation-models  --region eu-central-1 | grep deep
+aws bedrock list-foundation-models --region us-east-1 | grep deep    # this contains deepseek llm
+aws bedrock list-foundation-models --region us-east-1 | grep modelId
+
+
+# List available foundation models
+aws bedrock list-foundation-models --region us-east-1
+
+
+# Test Claude model availability
+aws bedrock list-foundation-models \
+  --region us-east-1 \
+  --by-provider anthropic \
+  --query 'modelSummaries[?contains(modelId, `claude`)].[modelId,modelName]' \
+  --output table
+
+# Test Nova model availability  
+aws bedrock list-foundation-models \
+  --region us-east-1 \
+  --by-provider amazon \
+  --query 'modelSummaries[?contains(modelId, `nova`)].[modelId,modelName]' \
+  --output table
+
+# Test a simple model invocation
+aws bedrock-runtime invoke-model \
+  --region us-east-1 \
+  --model-id us.anthropic.claude-3-5-haiku-20241022-v1:0 \
+  --body '{"anthropic_version":"bedrock-2023-05-31","max_tokens":100,"messages":[{"role":"user","content":"Hello, how are you?"}]}' \
+  --cli-binary-format raw-in-base64-out \
+  /tmp/response.json
+
+# Display the response
+cat /tmp/response.json | jq '.content[0].text'
+
+
+
+# First, let's check what Claude models are actually available
+aws bedrock list-foundation-models \
+  --region us-east-1 \
+  --by-provider anthropic \
+  --query 'modelSummaries[?contains(modelId, `claude`)].{ModelId:modelId,ModelName:modelName,Status:modelLifecycleStatus}' \
+  --output table
+
+
+# Test different claude models
+export MODEL_ID=us.anthropic.claude-3-7-sonnet-20250219-v1:0
+export MODEL_ID=us.anthropic.claude-3-5-haiku-20241022-v1:0
+export MODEL_ID=us.anthropic.claude-opus-4-20250514-v1:0   
+export MODEL_ID=us.anthropic.claude-sonnet-4-20250514-v1:0 
+
+
+# Call Claude model with correct model ID (using Claude 3.5 Sonnet)
+aws bedrock-runtime invoke-model \
+  --region us-east-1  --model-id $MODEL_ID  \
+  --cli-binary-format raw-in-base64-out output.json \
+  --body '{"anthropic_version":"bedrock-2023-05-31","max_tokens":500,"messages":[{"role":"user","content":"Wie wird das Wetter morgen in Hamburg?"}]}'
+  
+  --body '{"anthropic_version":"bedrock-2023-05-31","max_tokens":500,"messages":[{"role":"user","content":"Hallo, wer bist du? Was sind deine Fähigkeiten?"}]}' 
+  
+# Display the response
+cat output.json | jq -r '.content[0].text'
+
+
+# Call Claude Modell with more detailed body message
+aws bedrock-runtime invoke-model \
+--model-id anthropic.claude-3-sonnet-20240229-v1:0 \
+--body "{\"messages\":[{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"Tell me a short joke about cloud computing\"}]}],\"anthropic_version\":\"bedrock-2023-05-31\",\"max_tokens\":100,\"temperature\":0.7}" \
+--cli-binary-format raw-in-base64-out \
+--region eu-central-1 \
+output.json
+cat output.json | jq -r '.content[0].text'
+cat output.json
+
+
+exit
+#+end_src
+
+*Result:* AWS Bedrock models are successfully accessible and Claude models respond correctly via CLI invocation.
+
+** Part 2 Summary
+
+Infrastructure automation through Terraform successfully provisions the AWS environment. The EC2 instance is operational with proper network security configuration. SSH access is established through dedicated keypairs, and VS Code remote development capabilities are configured. The infrastructure exists as version-controlled code, enabling consistent reproduction across different deployments.
 
 * Part 3: Core LibreChat Deployment
 
@@ -273,6 +426,8 @@ At this milestone, I have:
 This is where the magic happens - transforming a bare EC2 instance into a powerful, privacy-respecting AI assistant platform.
 
 *** Initial Environment Preparation
+
+This prepares the EC2 instance with system updates and creates directories for persistent storage.
 
 #+begin_src bash
 # Listing: EC2 environment preparation
@@ -284,6 +439,11 @@ ssh EC2-LibreChat
 # Update the system
 sudo yum update -y
 
+# install some useful tools
+sudo yum install -y htop
+sudo yum install -y wget
+
+
 # Create necessary directories for persistent volumes
 sudo mkdir -p /opt/librechat/mongodb
 sudo mkdir -p /opt/portainer/data
@@ -293,11 +453,16 @@ sudo mkdir -p /opt/portainer/data/certs
 sudo chmod -R 777 /opt/portainer/data
 sudo chmod -R 777 /opt/librechat/mongodb
 
+ 
 # Exit for now - we'll return with specific tasks
 exit
 #+end_src
 
+*Result:* EC2 instance is updated and persistent storage directories are created with proper permissions for Docker containers.
+
 *** LibreChat Repository and Docker Setup
+
+This clones the LibreChat repository and installs Docker Compose for container management.
 
 #+begin_src bash
 # Listing: LibreChat clone and Docker installation
@@ -305,9 +470,14 @@ exit
 
 ssh EC2-LibreChat
 
-# Clone the LibreChat repository
-git clone https://github.com/danny-avila/LibreChat.git
+# Clone the LibreChat repository from this release: https://github.com/danny-avila/LibreChat/releases/tag/v0.7.8
+git clone --branch v0.7.8 https://github.com/danny-avila/LibreChat.git
 cd LibreChat
+
+# Verify the correct version is checked out
+git describe --tags
+git branch
+
 
 # Install docker-compose
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -322,52 +492,80 @@ cp .env.example .env
 # Test basic docker-compose functionality
 docker-compose up -d
 docker ps -a
-docker-compose down
+#docker-compose down
+
+## Check if LibreChat is started
+curl http://localhost:3080
+
 
 exit
 #+end_src
 
+*Result:* LibreChat v0.7.8 is successfully cloned, Docker Compose is installed, and the application is running and accessible on port 3080.
+
+** Use Case: Connect via SSH-Tunnel, Create User, Chat with user provided api key for antropic.
+
+This creates an SSH tunnel to access LibreChat securely from a local browser.
+
+
+#+begin_src bash
+# Listing: Testing LibreChat via SSH tunnel
+
+ssh -L 3080:localhost:3080 EC2-LibreChat 
+# open LibreChat in your browser.
+exit
+
+#+end_src
+
+When the SSH tunnel is established, LibreChat can be accessed via local browser at:
+http://localhost:3080
+Resister as: andreas@anwi.gmbh Password: private-ai
+
+*Result:* LibreChat is accessible via SSH tunnel and user accounts can be created. Chat functionality works with user-provided API keys for OpenAI or Anthropic models.
+
+
+
+** Part 3 Summary
+
+LibreChat deployment establishes the core AI assistant platform. The application is configured with Docker containerization, and SSH tunnel access enables secure local browser connectivity. The system demonstrates successful integration with external AI services through user-provided API keys. Basic chat functionality validates the foundation for advanced features.
+
+* Part 4: Security & Production Readiness
+
+** Security Configuration Philosophy
+
+Security isn't an afterthought in this deployment - it's built in from the beginning. Self-hosting gives us complete control, but with that comes the responsibility to secure our system properly.
+
 *** Local Configuration Preparation
 
-Back on my local machine, I need to prepare the configuration files that will enable HTTPS and production deployment.
+This prepares production configuration files on the local machine and transfers them to the EC2 instance.
 
 #+begin_src bash
 # Listing: Local configuration file preparation
 # Preparing production configurations locally
 
 cd "$PROJECT_DIR"
-
+pwd
 # Copy docker-compose override file for SSL/HTTPS deployment
-scp "$PROJECT_DIR"/LibreChat/docker-compose.override.yml ec2-user@EC2-LibreChat:~/LibreChat/docker-compose.override.yml
+scp "$PROJECT_DIR"/configs/docker-compose.override.yml ec2-user@EC2-LibreChat:~/LibreChat/docker-compose.override.yml
 
 # Backup and copy deploy-compose.yml with SSL configuration
 ssh EC2-LibreChat "cp ~/LibreChat/deploy-compose.yml ~/LibreChat/deploy-compose.yml.bak"
-scp "$PROJECT_DIR"/LibreChat/deploy-compose.yml ec2-user@EC2-LibreChat:~/LibreChat/deploy-compose.yml
+scp "$PROJECT_DIR"/configs/deploy-compose.yml ec2-user@EC2-LibreChat:~/LibreChat/deploy-compose.yml
 
 # Copy NGINX configuration with SSL
 ssh EC2-LibreChat "cp ~/LibreChat/client/nginx.conf ~/LibreChat/client/nginx.conf.bak"
-scp "$PROJECT_DIR"/LibreChat/client/nginx.conf ec2-user@EC2-LibreChat:~/LibreChat/client/nginx.conf
+scp "$PROJECT_DIR"/configs/nginx.conf ec2-user@EC2-LibreChat:~/LibreChat/client/nginx.conf
 
 # Verify the differences
 ssh EC2-LibreChat "diff ~/LibreChat/deploy-compose.yml ~/LibreChat/deploy-compose.yml.bak"
 ssh EC2-LibreChat "diff ~/LibreChat/client/nginx.conf ~/LibreChat/client/nginx.conf.bak"
 #+end_src
 
-** Checkpoint: Basic System Working
-
-Progress check:
-- ✅ LibreChat repository cloned and prepared
-- ✅ Docker environment configured  
-- ✅ Production configuration files in place
-- ✅ Ready for SSL and security setup
-
-* Part 4: Security & Production Readiness
-
-** My Philosophy on Security
-
-Security isn't an afterthought in this deployment - it's built in from the beginning. Self-hosting gives us complete control, but with that comes the responsibility to secure our system properly.
+*Result:* Production configuration files are transferred to the EC2 instance and configuration differences are verified.
 
 *** SSL Certificate Generation and Deployment
+
+This generates SSL certificates for HTTPS and configures secure communication.
 
 #+begin_src bash
 # Listing: SSL certificate setup for HTTPS
@@ -386,6 +584,15 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -out client/ssl/nginx.crt \
   -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
 
+# Generate DH parameters for enhanced security (this may take a few minutes)
+openssl dhparam -out client/ssl/dhparam 2048
+
+# Set proper permissions
+chmod 644 ./client/ssl/nginx.key
+chmod 644 ./client/ssl/nginx.crt
+chmod 644 ./client/ssl/dhparam
+
+
 # Verify SSL files
 ls -la client/ssl/
 
@@ -402,8 +609,11 @@ touch librechat.yaml
 exit
 #+end_src
 
-*** Production Deployment with SSL
+*Result:* SSL certificates are generated and configured for secure HTTPS communication. The protocol is switched from HTTP to HTTPS in the environment configuration.
 
+
+*** Production Deployment with SSL
+This command sequence launches LibreChat in production mode with SSL configuration, which provides secure HTTPS access and proper certificate handling.
 #+begin_src bash
 # Listing: Production deployment launch
 # Starting LibreChat with full HTTPS and security
@@ -415,7 +625,7 @@ cd ~/LibreChat
 # Stop any running services
 docker-compose -f deploy-compose.yml -f docker-compose.override.yml down
 
-# Start production deployment with SSL
+# Start production deployment with SSL. This will pull the NGNIX container.
 docker-compose -f deploy-compose.yml -f docker-compose.override.yml up -d
 
 # Verify all containers are running
@@ -428,23 +638,60 @@ exit
 
 # Display our public IP for browser access
 echo "LibreChat is now accessible at: https://$public_ip"
+
+## open broser to this url
+
+open https://$public_ip
+open http://$public_ip
+
+## Check the via CLIcking
+
+ssh EC2-LibreChat
+curl https://3.69.0.104
+curl http://3.69.0.104
+curl http://localhost
+curl https://localhost
+
 #+end_src
+
+*Result:* LibreChat is now running in production mode with HTTPS enabled. The service can be accessed securely via the public IP address.
+
 
 *** AWS Bedrock Integration Configuration
 
+This creates AWS access credentials and configures LibreChat to use AWS Bedrock models.
+
+
 #+begin_src bash
-# Listing: AWS Bedrock model configuration
-# Integrating AWS Bedrock AI models
+# Listing: AWS Bedrock Model Configuration
+# Prerequisites: Access to the AWS CLI with IAM user
 
-# Prepare local environment configuration
-cd "$PROJECT_DIR"
+cd $PROJECT_DIR
+pwd
 
-# Copy and prepare .env file locally
-scp ec2-user@EC2-LibreChat:~/LibreChat/.env.example "$PROJECT_DIR"/LibreChat/.env.example
-cp "$PROJECT_DIR"/LibreChat/.env.example "$PROJECT_DIR"/LibreChat/.env
+## List all aws access keys for the current user als complete json
+aws iam list-access-keys --user-name user-lab-a --profile lab-a --output json 
 
-# Add AWS Bedrock configuration
-cat >> "$PROJECT_DIR"/LibreChat/.env << EOF
+## create a new AWS access key and store it in Environment Variables
+aws iam create-access-key --user-name user-lab-a --profile lab-a-north --output json >> ./aws-credentials.json
+cat ./aws-credentials.json
+export AWS_ACCESS_KEY_ID=$(jq -r '.AccessKey.AccessKeyId' ./aws-credentials.json) 
+export AWS_SECRET_ACCESS_KEY=$(jq -r '.AccessKey.SecretAccessKey' ./aws-credentials.json)
+echo $AWS_ACCESS_KEY_ID
+echo $AWS_SECRET_ACCESS_KEY  # should not be printed out, but in this case I delete it in the clean-up section.
+
+## Check if the status of the AWS access key is active
+aws iam list-access-keys --user-name user-lab-a --profile lab-a-north --output json | jq -r '.AccessKeyMetadata[] | select(.Status == "Active") | .AccessKeyId'
+
+## Copy .env file from the ec2 instance to the local machine
+mkdir -p $PROJECT_DIR/LibreChat
+ssh EC2-LibreChat "whoami; ls -la ~/LibreChat/.env.example"
+scp ec2-user@EC2-LibreChat:~/LibreChat/.env.example $PROJECT_DIR/LibreChat/.env.example
+ls -la LibreChat
+cp LibreChat/.env.example LibreChat/.env
+
+## Update the Bedrock Config using a here document
+cat >> $PROJECT_DIR/LibreChat/.env << EOF
 
 #=================#
 #   AWS Bedrock   #
@@ -454,42 +701,66 @@ BEDROCK_AWS_DEFAULT_REGION=us-east-1
 BEDROCK_AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 BEDROCK_AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 
-# Claude models
-ANTHROPIC_CLAUDE_3_5_SONNET_20241022_V2_0=true
-ANTHROPIC_CLAUDE_3_5_HAIKU_20241022_V2_0=true
-ANTHROPIC_CLAUDE_3_OPUS_20240229_V1_0=true
-
-# Nova models  
-AMAZON_NOVA_PRO_V1_0=true
-AMAZON_NOVA_LITE_V1_0=true
-AMAZON_NOVA_MICRO_V1_0=true
-
-# DeepSeek models
-DEEPSEEK_DEEPSEEK_V3=true
+BEDROCK_AWS_MODELS="
+--us-inferance-profiles,
+us.anthropic.claude-opus-4-20250514-v1:0,
+us.anthropic.claude-sonnet-4-20250514-v1:0,
+us.anthropic.claude-3-7-sonnet-20250219-v1:0, 
+us.deepseek.r1-v1:0,
+us.anthropic.claude-3-5-sonnet-20241022-v2:0,
+us.anthropic.claude-3-5-haiku-20241022-v1:0,
+us.meta.llama3-3-70b-instruct-v1:0,
+--us-east-1--,
+amazon.titan-text-lite-v1,
+amazon.nova-micro-v1:0,
+amazon.nova-lite-v1:0,
+amazon.nova-pro-v1:0,
+mistral.mistral-large-2402-v1:0,
+mistral.mistral-small-2402-v1:0,
+"
 EOF
 
-# Display configuration (without secrets)
-echo "AWS Bedrock configuration added:"
-tail -n 20 "$PROJECT_DIR"/LibreChat/.env | grep -v SECRET
+# check if the env file is updated
+tail -n 50 $PROJECT_DIR/LibreChat/.env
 
-# Upload updated configuration
-scp "$PROJECT_DIR"/LibreChat/.env ec2-user@EC2-LibreChat:~/LibreChat/.env
+## scp the env file to the instance
+scp $PROJECT_DIR/LibreChat/.env ec2-user@EC2-LibreChat:~/LibreChat/.env
 
-# Restart services with new configuration
-ssh EC2-LibreChat '
+## Login to the instance and restart the docker-compose
+ssh EC2-LibreChat
+whoami; pwd
 cd ~/LibreChat
 docker-compose -f deploy-compose.yml -f docker-compose.override.yml down
 docker-compose -f deploy-compose.yml -f docker-compose.override.yml up -d
-'
+exit
+
+## open via public ip
+echo $public_ip
+open https://$public_ip
+
 #+end_src
 
-** Checkpoint: Production-Ready
 
-Security milestone achieved:
-- ✅ HTTPS/SSL enabled with proper certificates
-- ✅ Production Docker deployment running
-- ✅ AWS Bedrock models configured and accessible
-- ✅ System accessible via secure web interface
+*Result:* AWS Bedrock models are configured and accessible via the LibreChat instance. I can now interact with various AI models directly from the chat interface.
+
+
+** Use Case: Chat with AWS Bedrock Models, Agents for Calculation and Internet Access
+
+
+*Chat with different Bedrock Model:* Asking: Who are you? What are your capabilities? 
+
+*Nova Agnet:* Create this Agent using the Nova Pro model from AWS Bedrock.
+Name: Nova Agent
+Instruction: You are a helpful AI assistant that can use tools.
+
+Test-Case: Calculate the harmonic series for n=5 to a precicion of 10 digits.
+Test-Case: Find the square root of  999999937
+
+
+
+** Part 4 Summary
+
+Production security implementation transforms the development system into enterprise-ready deployment. SSL certificate generation enables HTTPS encryption, and AWS Bedrock integration provides access to advanced AI models without external API dependencies. The system operates securely over public internet while maintaining data privacy through self-hosted architecture.
 
 * Part 5: Advanced Features - RAG Integration
 
@@ -497,42 +768,53 @@ Security milestone achieved:
 
 Retrieval Augmented Generation (RAG) represents the pinnacle of this privacy-focused approach. Instead of sending sensitive documents to external AI services, I can process them locally while still leveraging powerful cloud models for reasoning.
 
-*** Ollama Container Deployment
+*** Ollama Container Deploymentssh EC2-LibreChat
+
+This deploys Ollama container for local RAG processing and installs the embedding model.
+
 
 #+begin_src bash
 # Listing: Ollama installation for local RAG processing
 # Setting up local model inference for embeddings
 
 # Prepare Ollama-specific Docker configuration
-cd "$PROJECT_DIR"
-scp "$PROJECT_DIR"/LibreChat/docker-compose.override.yml.ollama ec2-user@EC2-LibreChat:~/LibreChat/docker-compose.override.yml
+cd "$PROJECT_DIR"; pwd
+scp "$PROJECT_DIR"/configs/docker-compose.override.yml.ollama ec2-user@EC2-LibreChat:~/LibreChat/docker-compose.override.yml
 
 # Deploy with Ollama integration
-ssh EC2-LibreChat '
+ssh EC2-LibreChat 
 cd ~/LibreChat
 docker-compose -f deploy-compose.yml -f docker-compose.override.yml down
 docker-compose -f deploy-compose.yml -f docker-compose.override.yml up -d
 docker ps -a
-'
+
 
 # Install embedding model
-ssh EC2-LibreChat '
-docker exec -it $(docker ps -q --filter "name=ollama") bash -c "
+docker exec -it $(docker ps -q --filter "name=ollama") bash 
+# verify that we are inside the container
+whoami; hostname; pwd; uname -a
 ollama --version
 ollama pull nomic-embed-text
 ollama list
-"
-'
+exit # docke-container
+exit # ec2-instance
+
+exit
+
 #+end_src
 
+*Result:* The installation now includes Ollama for local RAG processing. The container is deployed and the nomic-embed-text model is pulled for embeddings.
+
+
 *** RAG Environment Configuration
+
+This configures LibreChat environment variables for local RAG processing and tests Ollama API connectivity.
 
 #+begin_src bash
 # Listing: RAG environment setup
 # Configuring LibreChat for local RAG processing
 
 ssh EC2-LibreChat
-
 cd ~/LibreChat
 
 # Add Ollama RAG configuration to environment
@@ -546,32 +828,68 @@ RAG_API_URL=http://host.docker.internal:8000
 EMBEDDINGS_PROVIDER=ollama
 OLLAMA_BASE_URL=http://host.docker.internal:11434
 EMBEDDINGS_MODEL=nomic-embed-text
+
 EOF
 
 # Verify configuration
 tail -n 10 .env
 
 # Test Ollama API connectivity
-docker exec -it $(docker ps -q --filter "name=rag_api") sh -c "
+docker exec -it $(docker ps -q --filter "name=rag_api") sh
+whoami; hostname; pwd; uname -a
 curl http://ollama:11434/api/version
-"
 
-# Test embeddings API
-docker exec -it $(docker ps -q --filter "name=ollama") sh -c "
-curl http://localhost:11434/api/embeddings -d '{
-  \"model\": \"nomic-embed-text\",
-  \"prompt\": \"Testing embedding generation for RAG\"
+## Check the embeddings api
+curl http://ollama:11434/api/embeddings -d '{
+  "model": "nomic-embed-text",
+  "prompt": "The sky is blue because of Rayleigh scattering"
 }'
-"
+
+exit # container
+exit # ec2-instance
+
+# copy the librechat.yaml to the ec2 instance
+scp $PROJECT_DIR/configs/librechat_ollama.yaml ec2-user@EC2-LibreChat:~/LibreChat/librechat.yaml
+
+ssh EC2-LibreChat
+cd ~/LibreChat
 
 # Restart services with RAG configuration
 docker-compose -f deploy-compose.yml -f docker-compose.override.yml down
 docker-compose -f deploy-compose.yml -f docker-compose.override.yml up -d
 
+## It may be necessary to check the firewall settings on the EC2 instance to allow traffic on port 11434.
+# Check if port 11434 is allowed
+sudo iptables -L -n | grep 11434
+
+# Allow traffic if needed
+sudo iptables -A INPUT -p tcp --dport 11434 -j ACCEPT
+
 exit
 #+end_src
 
-*** Advanced Model Installation (GPU Instance Upgrade)
+
+*Result:* The .env file is updated to include Ollama RAG configuration, enabling local embeddings processing. The access from RAG container to the Ollama API is verified. The embedding was testet with a sample text.
+
+
+*** Demonstration of RAG
+
+
+
+Now we select the model nova pro and start a new chat.
+Frist I ask who Andreas Wittmann it at it usally finds a musician with the same name.
+
+I drag&drop a pdf of the CV of Andreas Wittmann. It has a text layer.
+The upload takes some time. I check the cpu usage with top.
+ollama command consumes 100% CPU. It is busy on the embedding activity for about 1 minute.
+After this finishes, we can query about Andreas Wittmann again.
+
+
+
+
+*** Installating Ollama Models for Inference
+
+This installs additional Ollama models for inference and tests their functionality via API calls.
 
 #+begin_src bash
 # Listing: Advanced model deployment
@@ -590,6 +908,18 @@ ollama pull mistral-nemo
 # List all available models
 ollama list
 
+exit
+# Test model functionality
+curl -X POST http://localhost:11434/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{
+        "model": "deepseek-r1:8b",
+        "prompt": "What is the capital of Spain?",
+        "max_tokens": 50
+     }'
+
+
+
 # Test model functionality
 curl -X POST http://localhost:11434/api/generate \
      -H "Content-Type: application/json" \
@@ -599,10 +929,6 @@ curl -X POST http://localhost:11434/api/generate \
         "max_tokens": 50
      }'
 
-exit
-
-# Exit container
-exit
 
 # Restart services to integrate new models
 cd ~/LibreChat
@@ -612,177 +938,528 @@ docker-compose -f deploy-compose.yml -f docker-compose.override.yml up -d
 exit
 #+end_src
 
-** Checkpoint: Complete System
+*Result:* Three modells for inference are installed in the Ollama container. However the test using the api with curl reveals that the machine does not have enough memory to run the models.
+We need to upgrade the instance type to a more powerful instance type.
 
-Full functionality achieved:
-- ✅ RAG functionality operational with Ollama
-- ✅ Local embedding generation working
-- ✅ Multiple AI models available (local + cloud)
-- ✅ Document processing capabilities enabled
 
-* Troubleshooting & Maintenance
+** Part 5 Summary
 
-** Common Issues and Solutions
+RAG integration enables advanced document processing while preserving privacy. Ollama container deployment provides local embedding generation, eliminating the need to transmit sensitive documents to external services. The hybrid architecture combines local document processing with cloud-based reasoning, creating a comprehensive AI assistant that maintains complete data control.
 
-From my experience deploying this system, here are the most frequent issues and their solutions:
+* Part 6: Usinig Ollama for inferance.
+- Upgrade to g5.xlarge
+- Install ollama inference models.
+- install gpu monitoring tool
+- Demonstrate inference.
 
-*** Docker Container Issues
+*** Change to a more powerful instance type
+:PROPERTIES:
+:ID:       B8BDA59D-4F45-467E-9C4F-16455AC841CD
+:END:
+The t3.medium instance type is not powerful enough to run the Ollama container.
+It is working with small files, however bigger files take just to long or provocate an error.
+Inerence doesn't work as all.
+
+*Recommendations:*
+GPU-accelerated instances (best for embeddings):
+- g4dn.xlarge: 4 vCPUs, 16GB RAM, 1 NVIDIA T4 GPU, 16 GiB VRAM - good balance of performance/cost
+- g6e.xlarge:   4 vCPUs, 16GB RAM, 1x AMD Radeon Pro V620 GPU, 32 GiB VRAM - AI workloads with bigger VRAM 
+CPU-only alternatives (if cost is a concern):
+- c6i.2xlarge: 8 vCPUs, 16GB RAM - compute-optimized without GPU
+- r6i.xlarge: 4 vCPUs, 32GB RAM - memory-optimized for larger models
+
+
+This uses Terraform to upgrade the EC2 instance type to a GPU-enabled instance for better performance.
 
 #+begin_src bash
-# Listing: Container troubleshooting
-# Diagnosing and resolving container problems
+# Listing: Using terraform to change the instance type
+# Prerequisites: We start from the local machine
+exit
+whoami; pwd;
+cd $PROJECT_DIR
+cd terraform
+pwd; ls -la
+
+# Use a perl oneliner to change the instance type in the terraform.tfvars file to g4dn.xlarge, only print to stdout
+perl -pe 's/instance_type    = ".*"/instance_type    = "t3.medium"/' terraform.tfvars
+perl -pe 's/instance_type    = ".*"/instance_type    = "g4dn.xlarge"/' terraform.tfvars
+perl -pe 's/instance_type    = ".*"/instance_type    = "g6e.large"/' terraform.tfvars
+
+## And chnage the file
+perl -pi -e  's/instance_type    = ".*"/instance_type    = "t3.medium"/' terraform.tfvars
+perl -pi -e  's/instance_type    = ".*"/instance_type    = "g4dn.xlarge"/' terraform.tfvars  # GPU-Mem 16 GiB
+perl -pi -e  's/instance_type    = ".*"/instance_type    = "g6e.xlarge"/' terraform.tfvars   # GPU-Mem 4x24 GiB
+
+cat terraform.tfvars
+
+# Create a new plan
+terraform plan
+terraform plan -out=tfplan -var-file=terraform.tfvars
+terraform show -json tfplan > tfplan.json
+cat tfplan.json | jq > tfplan.pretty.json
+cat tfplan.json | jq '.resource_changes[] | {address: .address, action: .change.actions[0]}'
+
+# Apply the new plan
+terraform apply 
+yes
+
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+Note: The instance failed to start. I had to request a quota increase for the Running On-Demand G and VT instances in the AWS Service Quotas. The positive response was received within 5 hours.
+#+END_EXAMPLE
+
+*Result:* The instance type is changed to g4dn.xlarge, which has a NVIDIA T4 GPU with 16 GiB VRAM.
+
+*** Installing NVIDIA Drivers and CUDA for GPU Support
+
+This installs NVIDIA drivers and CUDA toolkit to enable GPU acceleration for AI workloads.
+
+
+#+begin_src bash
+# Listing: Installing NVIDIA Drivers and CUDA for GPU Support
 
 ssh EC2-LibreChat
 
+# Show machine details, like CPU, GPU, RAM
+lscpu
+lspci | grep -i nvidia
+
+
+## Extra Configuration for GPU usgae
+sudo su
+
+# Install NVIDIA drivers and CUDA
+# Update system packages
+dnf update -y
+
+
+##########  this works!!!! [2025-06-01 Sun 12:31]
+# Install required tools
+sudo dnf install -y gcc kernel-devel-$(uname -r) make
+
+# Install NVIDIA drivers through AWS package manager
+sudo dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
+
+sudo dnf clean all
+sudo dnf -y module install nvidia-driver:latest-dkms
+
+# reboot to activate the NVIDIA drivers
+shutdown -r now
+ssh EC2-LibreChat
+
+# Check driver installation
+nvidia-smi  # NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver
+
+
+### Troubleshooting
+#Fixing NVIDIA Driver Symbol Error on Amazon Linux 2023
+# 1. Remove existing NVIDIA packages
+sudo dnf remove -y '*nvidia*' '*cuda*'
+
+# 2. Install kernel headers that match exactly
+sudo dnf install -y kernel-devel-$(uname -r) kernel-headers-$(uname -r)
+
+# 3. Install required packages
+sudo dnf install -y gcc make dkms
+
+# 4. Install DRM kernels (missing dependency)
+sudo dnf install -y kernel-modules-extra
+
+# 5. Reinstall NVIDIA drivers using Amazon-specific method
+sudo dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
+sudo dnf clean all
+sudo dnf -y module install nvidia-driver:latest-dkms
+
+# 6. Reboot to load the driver
+sudo reboot
+ssh EC2-LibreChat
+
+
+
+
+#---------
+
+# Load modules
+sudo modprobe nvidia
+sudo modprobe nvidia_uvm
+
+
+# Download the CUDA installer for Amazon Linux 2023
+cd /tmp
+wget https://developer.download.nvidia.com/compute/cuda/12.2.0/local_installers/cuda_12.2.0_535.54.03_linux.run
+
+# Add execute permissions
+chmod +x cuda_12.2.0_535.54.03_linux.run
+
+
+# Create a new temporary directory and Use this directory for the installation
+mkdir ~/cuda_tmp
+# Run the installer (silent mode with custom options)
+sudo TMPDIR=~/cuda_tmp sh cuda_12.2.0_535.54.03_linux.run --silent --override --toolkit --samples --toolkitpath=/usr/local/cuda-12.2 --samplespath=/usr/local/cuda --no-opengl-libs
+
+# Set as default CUDA version
+sudo ln -s /usr/local/cuda-12.2 /usr/local/cuda
+
+## Check CUDA installation
+/usr/local/cuda/bin/nvcc --version
+
+# Check if libraries exist
+ls -l /usr/local/cuda/lib64
+
+
+# Install NVIDIA Container Toolkit if not already installed
+sudo dnf install -y nvidia-container-toolkit
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+
+# Test GPU support in Docker
+docker run --rm --gpus all nvidia/cuda:12.2.0-base-ubuntu22.04 nvidia-smi
+
+exit
+
+
+#+end_src
+
+
+*Result:* NVIDIA drivers and CUDA toolkit are successfully installed on the EC2 instance. The `nvidia-smi` command shows the GPU is recognized and ready for use.
+
+
+*** Updating Docker Configuration for Ollama with GPU Support
+
+This updates the Docker configuration to enable GPU access for Ollama containers.
+
+#+begin_src bash
+# Listing: Updating Docker Configuration for Ollama with GPU Support
+
+
+# Update Ollama-specific Docker configuration
+cd "$PROJECT_DIR"; pwd
+scp "$PROJECT_DIR"/configs/docker-compose.override.yml.ollama_gpu ec2-user@EC2-LibreChat:~/LibreChat/docker-compose.override.yml
+
+
+## Login to container and restart docker-compose
+ssh EC2-LibreChat
+whoami; pwd
+cd ~/LibreChat
+docker ps -a
+docker-compose -f deploy-compose.yml -f docker-compose.override.yml down
+docker-compose -f deploy-compose.yml -f docker-compose.override.yml up -d
+
+# Verify Ollama is Using GPU
+# Check running containers
+docker ps
+
+# Check GPU usage by running nvidia-smi
+nvidia-smi
+
+# Check logs from Ollama container
+docker logs $(docker ps -q --filter name=ollama)
+
+exit
+exit
+
+#+end_src
+
+
+*Result:* The Docker configuration is updated to allow Ollama to utilize the GPU. The Ollama container is restarted with GPU support, and the `nvidia-smi` command confirms that the GPU is being used.
+
+*** Testing Ollama with GPU Support
+In the LibreChat GUI start a chat with ollama model: mistral-nemo:latests.
+I provide the CV and ask about Andreas Wittmann. The answer is ok.
+I provide the prompting study. It is uploaded fast.
+I switch to deepseek-r1:8b
+I ask about the prompting study: What are the key take-aways of this prompting study?
+The response uses full GPU power (90%+), and the response is generated in more than 2 minutes. The answer is somewhat confused.
+I switch to xlam:7b and ask the same question. It takes about 1 minute to load the model into memory, but the response is generated in less than 10 seconds. The anwsers are ok.
+
+
+
+*** Monitoring GPU usage
+
+This installs GPU monitoring tools to track GPU utilization and performance.
+
+#+begin_src bash
+# Listing: Install monitoring tools for GPU usage
+
+ssh EC2-LibreChat
+whoami; pwd
+
+## Simple command to check GPU usage
+nvidia-smi -l 1  # This will refresh every second and run indefinitely until stopped with Ctrl+C
+
+
+#### Install pip if not already installed
+sudo dnf install -y python3-pip
+
+### Install gpustat
+pip3 install gpustat
+
+# Run gpustat
+gpustat
+
+
+#### Install nvitop
+pip install nvitop --user
+nvitop
+q
+
+#+end_src
+
+
+*Result:* The GPU usage can be monitored using `nvidia-smi`, `gpustat`, and `nvitop`. The `nvitop` tool provides a continuous view of GPU utilization, memory usage, and processes using the GPU.
+
+
+
+*** Using Ollmama for interference
+So far we have only used the ollama container to generate embeddings
+for the document search. But it can also be used as a LLM for
+inference.
+
+Candidate LLMS for g4dn.xlarge instance type.
+- xLAM-7b-r :: [[https://huggingface.co/Salesforce/xLAM-7b-r][Salesforce/xLAM-7b-r · Hugging Face]] This model is a 7B
+  parameter model that is optimized for angentic tasks.
+- [[https://ollama.com/allenporter/xlam:7b][allenporter/xlam:7b]]
+- ollama pull allenporter/xlam
+- deepseek-r1 :: [[https://ollama.com/library/deepseek-r1][deepseek-r1]] This model is a 7B parameter model that
+  is optimized for reasoning.
+- ollama run deepseek-r1:7b
+- ollama run deepseek-r1:8b
+- eramax/salesforce-iterative-llama3-8b-dpo-r :: [[https://ollama.com/eramax/salesforce-iterative-llama3-8b-dpo-r][eramax/salesforce-iterative-llama3-8b-dpo-r:Q5_K_M]]
+  This is an instruct model that is quantized from the llama 3 model.
+- ollama run eramax/salesforce-iterative-llama3-8b-dpo-r:Q5_K_M
+
+#+begin_src bash
+# Listing: Configuring Ollmama for interference
+# Prerequisites: EC2-LibreChat is startet and ollama container is running.
+
+PROJECT_DIR=~/LocalProjects/ai-bootcamp/private-ai/
+cd $PROJECT_DIR
+pwd; whoami
+ssh EC2-LibreChat
+whoami; pwd
 cd ~/LibreChat
 
-# Check container status
+## Check if the ollama container is running
 docker ps -a
+docker ps -q --filter "name=ollama"
+docker exec -it $(docker ps -q --filter "name=ollama") bash
+ollama --version
+ollama list
+# pull ohter models
 
-# View container logs
-docker logs $(docker ps -q --filter "name=LibreChat-API")
-docker logs $(docker ps -q --filter "name=ollama")
+ollama pull deepseek-r1:8b
+ollama pull deepseek-r1:14b
+ollama pull allenporter/xlam:7b
+ollama pull mistral-nemo              # 7GB
+ollama pull llama3.3:70b-instruct-q2_K # 26gb   # it is fast, but not usable for RAG. I have to persuade it to use the knowledg base. the answers are mostly nonsens.
+ollama pull llama3:70b-instruct-q4_K_M # ~38–42 GB Excellent for general chat and instruction-following, the model loads but hangs and does not give an answer.
+ollama pull open-orca-platypus2       # 26 GB Ansers are a bit confused but very fast on the g6.12xlarge instance type.
+ollama rm open-orca-platypus2       # 26 GB Ansers are a bit confused but very fast on the g6.12xlarge instance type.
+ollama pull qwq:32b-q8_0            # 35GB
+#ollama pull qwq:32b                 # 20GB
+#ollama pull qwq:32b-preview-q4_K_M  # 20GB
+#ollama pull qwq:32b-preview-q8_0    # 35GB 
 
-# Access container for direct troubleshooting
-docker exec -it $(docker ps -q --filter "name=LibreChat-API") sh
+ollama rm mistral-small3.1:24b     # 15GB tool use. Fast on single reqeusts, but produces nonsens in RAG
+ollama rm qwq:32b                 # 20GB Quite fast and impressive in chat but fails in RAG
+ollama rm qwq:32b-q8_0            # 35GB, inference take ca. 4 minutes. Probably to load it into memory. Second call is fast.
 
-# Check environment variables
-env | sort
+ollama rm llama3:70b-instruct-q4_K_M
 
-# Check log file permissions
-find . -name "*.log" -exec chmod 777 {} \;
+exit # container
+
+# Check the models by quering the API from the commandline
+curl -X POST http://localhost:11434/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{
+        "model": "deepseek-r1:8b",
+        "prompt": "What is your name?",
+        "max_tokens": 50
+     }'
+        "prompt": "What is the capital of France?",
+
+# Check the models by quering the API from the commandline
+curl -X POST http://localhost:11434/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{
+        "model": "allenporter/xlam:7b",
+        "prompt": "What is the capital of France?",
+        "max_tokens": 50
+     }'
+
+# Check the models by quering the API from the commandline
+curl -X POST http://localhost:11434/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{
+        "model": "eramax/salesforce-iterative-llama3-8b-dpo-r:Q5_K_M",
+        "prompt": "What is the capital of France?",
+        "max_tokens": 50
+     }'
+
+# Check the models by quering the API from the commandline
+curl -X POST http://localhost:11434/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{
+        "model": "qwq:32b-q8_0",
+        "prompt": "What is the capital of Germany?",
+        "max_tokens": 50
+     }'
+
+# Check the models by quering the API from the commandline
+curl -X POST http://localhost:11434/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{
+        "model": "qwq:32b",
+        "prompt": "What is the capital of Sweden?",
+        "max_tokens": 50
+     }'
+
+# Check the models by quering the API from the commandline
+curl -X POST http://localhost:11434/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{
+        "model": "mistral-small3.1:24b",
+        "prompt": "What is the capital of Spain?",
+        "max_tokens": 50
+     }'
+
+
+# Check the models by quering the API from the commandline # requiers 13,1 GiB GPU memory
+curl -X POST http://localhost:11434/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{
+        "model": "llama3.3:70b-instruct-q2_K",
+        "prompt": "What is the capital of Spain?",
+        "max_tokens": 50
+     }'
+
+# Check the models by quering the API from the commandline
+curl -X POST http://localhost:11434/api/generate \
+     -H "Content-Type: application/json" \
+     -d '{
+        "model": "open-orca-platypus2",
+        "prompt": "What is the capital of Spain?",
+        "max_tokens": 50
+     }'
 
 exit
+##
 
-# Restart problematic services
-docker-compose -f deploy-compose.yml -f docker-compose.override.yml restart
+## Configure these models in librechat via VSCode.
 
-exit
+## restart the docker-compose
+cd ~/LibreChat
+ls -la
+
+docker-compose -f deploy-compose.yml -f docker-compose.override.yml down
+docker-compose -f deploy-compose.yml -f docker-compose.override.yml up -d
+
+
 #+end_src
 
-*** Performance Optimization
+*Result:* The ollama models could be loaded into the container. The models can be used for inference via the API. The models can be used in the LibreChat application, after configuring them in the librechat.yaml file.
+
+Different models work für inference. But they are very slow. I have to wait about 20s for the response.
+
+
+*** Upgrade to a more powerful instance type
+The g4dn.xlarge instance type is not powerful enough to run the ollama models for inference. The inference takes too long.
+
+I configure the instance type to g6.12xlarge, which has 48 vCPUs
+g6.12xlarge
+
+I follow the instruction in:  [[id:B8BDA59D-4F45-467E-9C4F-16455AC841CD][Change to a more powerful instance type]]
+
+The switch take about 6 minutes
+
+I report the runtime of the g6.12xlarge instance type, to keep track of the costs.
+[2025-06-02 Mon 22:35] g6.12xlarge instance type is started.
+[2025-06-02 Mon 23:21] g6.12xlarge instance type is stopped.
+
+
+I loaded different models, the inference is very fast. The accuracy of the medium sized models is better.
+The  llama3:70b-instruct-q4_K_M could be loaded but failed to provide an anwser.
+
+
+*Result:* The g6.12xlarge instance type could be started without changing the driver or CUDA installation.
+The overall performance was execllent. Medium-sized models run performant. RAG functionality can be used and performs well.
+This could also serve a multi-user environment with 1-20 user.
+More analysis is needed to choose the optimal model for this instance type and also to tune the system.
+
+
+
+*** Destroy the AWS resources and clean update
+
+This safely removes all AWS infrastructure and cleans up credentials to avoid ongoing costs.
 
 #+begin_src bash
-# Listing: Performance monitoring and optimization
-# Monitoring system performance and resource usage
+# Listing: Destroy the AWS resources and clean update
 
-# Check system resources
-ssh EC2-LibreChat '
-# CPU and memory usage
-top -bn1 | head -20
+whoami; pwd;
+cd $PROJECT_DIR
+cd terraform
+pwd; ls -la
 
-# Disk usage
-df -h
+## destroy the instance
+terraform destroy
+yes
 
-# Docker resource usage
-docker stats --no-stream
 
-# Check if GPU is available and in use (for GPU instances)
-nvidia-smi 2>/dev/null || echo "No GPU detected"
-'
 
-# Monitor network connectivity
-ssh EC2-LibreChat 'netstat -tlnp | grep -E "(3080|11434|8000)"'
+## delete the aws keys and clean up
+echo $AWS_ACCESS_KEY_ID
+aws iam delete-access-key --user-name user-lab-a --access-key-id $AWS_ACCESS_KEY_ID --profile lab-a
+# clean up
+rm ./aws-credentials.json
+
+
 #+end_src
 
-*** Cost Optimization Strategies
+*Result:* All AWS infrastructure is destroyed and credentials are safely removed to prevent ongoing charges.
 
-#+begin_src bash
-# Listing: AWS cost optimization
-# Managing AWS costs effectively
 
-# Stop instance when not in use
-aws ec2 stop-instances --instance-ids "$instance_id"
+** Use Case: Chat with ollama models. RAG with ollama models.  
 
-# Start instance when needed
-aws ec2 start-instances --instance-ids "$instance_id"
+** Part 6 Summary
 
-# Check instance state
-aws ec2 describe-instances \
-  --instance-ids "$instance_id" \
-  --query 'Reservations[*].Instances[*].[InstanceId, State.Name]' \
-  --output text
+Part 6 accomplishes the transformation of the LibreChat deployment from a basic inference system to a high-performance GPU-accelerated AI platform capable of running local large language models. The section establishes GPU infrastructure through instance type upgrades to g4dn.xlarge and g6.12xlarge configurations, enabling NVIDIA driver and CUDA toolkit installation for hardware acceleration support.
 
-# For development: use smaller instance types
-# For production: consider reserved instances or spot instances
-echo "Current instance type: $(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[*].Instances[*].InstanceType' --output text)"
-#+end_src
+The implementation demonstrates successful integration of multiple Ollama models including DeepSeek-R1, xLAM-7b, and Mistral variants, each optimized for different computational requirements and use cases. The deployment includes comprehensive monitoring capabilities through nvidia-smi, gpustat, and nvitop tools, providing real-time visibility into GPU utilization and performance metrics.
+
+Testing reveals significant performance variations across different model sizes and instance types. The g6.12xlarge configuration enables practical multi-user deployment scenarios while maintaining responsive inference times for medium-sized models. The section concludes with proper resource cleanup procedures, demonstrating cost-conscious cloud resource management practices.
+
+This phase establishes a fully functional local AI inference platform that maintains data privacy while delivering enterprise-grade performance capabilities.
 
 * Reflection & Lessons Learned
 
-** Personal Insights from This Journey
+** Technical Insights
 
-Building this privacy-focused AI system has been both challenging and deeply rewarding. Here are my key discoveries:
+The implementation reveals several key considerations. Docker Compose provides an effective balance between simplicity and functionality for multi-container orchestration. Security-first design through initial HTTPS implementation creates more robust foundations than retrofitting SSL later.
 
-*** Technical Insights
+The hybrid architecture combining local Ollama models for embeddings with cloud Bedrock models for reasoning demonstrates practical privacy-performance balance. Local processing handles sensitive document embedding while cloud capabilities provide complex reasoning. This separation enables fine-grained data exposure control.
 
-1. **Container Orchestration**: Docker Compose provides an excellent balance between simplicity and functionality for this use case
-2. **Security by Design**: Implementing HTTPS from the start, rather than as an afterthought, creates a much more robust system
-3. **Local-Cloud Hybrid**: The combination of local Ollama models for embeddings and cloud Bedrock models for reasoning provides optimal privacy and performance
-4. **Infrastructure as Code**: Terraform automation makes the entire system reproducible and shareable
+Infrastructure automation through Terraform transforms manual processes into reproducible, version-controlled workflows. The live-scripting methodology bridges documentation and execution, making complex deployments more accessible.
 
-*** Methodology Insights
+Resource requirements for RAG functionality with Ollama require careful instance sizing consideration. The computational overhead of embedding generation and vector similarity searches significantly impacts performance on undersized instances. Docker networking for multi-container applications needs thoughtful planning, especially when access patterns vary between development and production.
 
-1. **Live-Scripting Power**: The F4 execution method transforms documentation into executable infrastructure
-2. **Iterative Development**: Building in checkpoints allows for systematic troubleshooting and learning
-3. **Privacy First**: Self-hosting gives complete control but requires accepting operational responsibility
+** Alternative Approaches
 
-*** Unexpected Discoveries
+Infrastructure alternatives include Kubernetes for production scaling, AWS ECS/Fargate for serverless containers, and local Docker Desktop for development. Security enhancements could involve VPN access restriction, WAF integration, or comprehensive monitoring through CloudWatch or Prometheus.
 
-1. **Resource Requirements**: RAG functionality with Ollama requires careful instance sizing consideration
-2. **Network Configuration**: Docker networking for multi-container applications needs thoughtful planning
-3. **Model Performance**: Local embedding models perform surprisingly well for document processing
+Cost optimization options include spot instances for development environments, ARM instances for better price-performance ratios, and multi-region deployments for disaster recovery and performance optimization.
 
-** Alternative Approaches Considered
+Future enhancements might include multi-modal support for images and audio, custom model training capabilities, agent framework integration, high availability deployment, comprehensive backup strategies, and enhanced monitoring capabilities.
 
-*** Different Infrastructure Options
+** Assessment
 
-- **Kubernetes**: More complex but offers better scaling for production environments
-- **AWS ECS/Fargate**: Serverless containers reduce operational overhead
-- **Local Development**: Docker Desktop for development and testing
+This project demonstrates that privacy-focused AI systems are both technically feasible and practically deployable. The combination of open-source tools, cloud infrastructure, and security design creates a platform that maintains user privacy while delivering enterprise-grade AI capabilities.
 
-*** Security Enhancements for Production
+The live-scripting methodology provides value for both development and knowledge transfer. Each executable code block serves dual purposes as implementation step and educational content.
 
-- **VPN Access**: Restricting access through VPN rather than public internet
-- **WAF Integration**: Web Application Firewall for additional protection
-- **Monitoring**: CloudWatch or Prometheus for comprehensive monitoring
-
-*** Cost Optimization Alternatives
-
-- **Spot Instances**: Significant cost savings for development environments
-- **ARM Instances**: Better price/performance for certain workloads
-- **Multi-Region**: Disaster recovery and performance optimization
-
-** Future Enhancement Possibilities
-
-*** Advanced AI Features
-
-1. **Multi-Modal Support**: Image and audio processing capabilities
-2. **Custom Model Training**: Fine-tuning models for specific use cases
-3. **Agent Frameworks**: Integration with LangChain or similar frameworks
-
-*** Production Hardening
-
-1. **High Availability**: Multi-AZ deployment with load balancing
-2. **Backup Strategy**: Automated data backup and recovery procedures
-3. **Monitoring & Alerting**: Comprehensive observability stack
-
-*** User Experience Improvements
-
-1. **Mobile Interface**: Progressive Web App for mobile access
-2. **User Management**: Advanced authentication and authorization
-3. **API Access**: RESTful API for programmatic access
-
-** Final Thoughts
-
-This project demonstrates that privacy-focused AI is not only possible but practical. The combination of open-source tools, cloud infrastructure, and careful security design creates a powerful platform that respects user privacy while delivering enterprise-grade AI capabilities.
-
-The live-scripting methodology proved invaluable for both development and documentation. Each code block tells a story while remaining completely executable, making this workflow both educational and practical.
-
-Most importantly, this approach puts control back in the hands of users. In an age of increasing concern about AI privacy and data sovereignty, self-hosted solutions like this provide a compelling alternative to cloud-only AI services.
-
-Whether you're a privacy-conscious individual, a security-focused organization, or simply someone who wants to understand how AI systems work under the hood, this workflow provides a solid foundation for exploration and production deployment.
+This approach establishes user control over AI infrastructure where data sovereignty concerns continue to grow. Self-hosted solutions provide alternatives to cloud-only AI services, though they require accepting operational responsibility.
 
 ---
 
 *This completes the LibreChat AWS deployment using live-scripting methodology. Each code block is executable with F4 in Emacs using `send-line-to-vterm`, or can be copied and pasted into any terminal for the same results.*
+

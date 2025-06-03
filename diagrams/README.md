@@ -61,8 +61,8 @@ The LibreChat deployment follows a containerized microservices architecture on A
 
 ### Network Security
 - HTTPS/SSL encryption for all web traffic
-- SSH key-based authentication only
-- Security groups restrict access to necessary ports
+- SSH key-based authentication for direct access
+- Security groups restrict access to necessary ports (SSH, HTTP/HTTPS)
 - Optional VPN access for enhanced security
 
 ### Data Privacy
@@ -73,7 +73,8 @@ The LibreChat deployment follows a containerized microservices architecture on A
 
 ### Access Control
 - IAM roles with least privilege access
-- SSM Session Manager for secure shell access
+- Direct SSH access for development and administration
+- VS Code Remote Development integration
 - Container isolation and networking
 - Environment variable protection
 

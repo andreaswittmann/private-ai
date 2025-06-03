@@ -58,7 +58,7 @@ resource "aws_security_group" "librechat_sg" {
     cidr_blocks = [var.allowed_ip]
     description = "SSH access"
   }
-  
+
   # Ollama API
   ingress {
     from_port   = 11434
@@ -119,12 +119,6 @@ resource "aws_iam_role" "librechat_role" {
   }
 }
 
-# Attach SSM Managed policy
-resource "aws_iam_role_policy_attachment" "ssm_policy" {
-  role       = aws_iam_role.librechat_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
-
 # Create custom policy for Bedrock
 resource "aws_iam_policy" "bedrock_policy" {
   name        = "BedrockModelAccessPolicy"
@@ -137,9 +131,15 @@ resource "aws_iam_policy" "bedrock_policy" {
         Effect = "Allow"
         Action = [
           "bedrock:InvokeModel",
-          "bedrock:InvokeModelWithResponseStream"
+          "bedrock:InvokeModelWithResponseStream",
+          "bedrock:ListFoundationModels",
+          "bedrock:GetFoundationModel",
+          "bedrock:ListCustomModels",
+          "bedrock:GetCustomModel",
+          "bedrock:ListModelCustomizationJobs",
+          "bedrock:GetModelCustomizationJob"
         ]
-        Resource = "arn:aws:bedrock:*::foundation-model/*"
+        Resource = "*"
       }
     ]
   })

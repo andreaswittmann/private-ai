@@ -1,0 +1,24 @@
+# Terraform variables template
+# Copy this file to terraform.tfvars and customize with your values
+
+# AWS Configuration
+aws_region       = "eu-north-1"          # AWS region for deployment
+instance_type    = "t3.medium"           # EC2 instance type (t3.medium, g4dn.xlarge, g6.12xlarge)
+root_volume_size = 50                    # Root volume size in GB
+root_volume_type = "gp3"                 # EBS volume type
+
+# Security Configuration
+allowed_ip       = "YOUR_IP/32"          # Your public IP with /32 CIDR (for restricted access)
+ssh_public_key   = "ssh-rsa AAAAB3... your-ssh-public-key-here"  # Your SSH public key
+ssh_cidr_blocks  = ["YOUR_IP/32"]        # List of CIDR blocks allowed SSH access
+
+# Resource Naming
+ec2_name         = "EC2-LibreChat"       # Name tag for EC2 instance
+environment      = "development"         # Environment tag (development, staging, production)
+project          = "private-ai"          # Project tag
+
+# Notes:
+# - Replace YOUR_IP with your actual public IP address
+# - Generate SSH key pair with: ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+# - Get your public IP with: curl -s https://checkip.amazonaws.com/
+# - For open access (not recommended), use "0.0.0.0/0" for allowed_ip and ssh_cidr_blocks

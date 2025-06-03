@@ -13,14 +13,14 @@ output "instance_dns" {
   value       = aws_instance.librechat_instance.public_dns
 }
 
-output "ssm_connection_command" {
-  description = "Command to connect to the instance using Session Manager"
-  value       = "aws ssm start-session --target ${aws_instance.librechat_instance.id}"
+output "ssh_connection_command" {
+  description = "Command to connect to the instance using SSH"
+  value       = "ssh -i ~/.ssh/librechat_key ec2-user@${aws_eip.librechat_eip.public_ip}"
 }
 
-output "port_forwarding_command" {
-  description = "Command for port forwarding from EC2 to local machine"
-  value       = "aws ssm start-session --target ${aws_instance.librechat_instance.id} --document-name AWS-StartPortForwardingSession --parameters \"portNumber=80,localPortNumber=8080\""
+output "vscode_remote_connection" {
+  description = "Instructions for VS Code Remote SSH connection"
+  value       = "Add to ~/.ssh/config: Host librechat-aws\n  HostName ${aws_eip.librechat_eip.public_ip}\n  User ec2-user\n  IdentityFile ~/.ssh/librechat_key"
 }
 
 output "librechat_url" {
