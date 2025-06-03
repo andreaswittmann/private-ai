@@ -1,5 +1,9 @@
 # Private AI - Self-Hosted LibreChat with Complete Data Control
 
+![Private AI - Privacy-Focused AI Assistant](diagrams/private-ai_illustration.png)
+
+*A privacy-focused AI assistant running on your own infrastructure with complete data control*
+
 A containerized LibreChat deployment providing flexible privacy controls for AI interactions. Choose between fully local operation or hybrid cloud integration while maintaining complete control over your data and conversations.
 
 This project showcases a **live-scripting documentation approach** using Emacs Org-mode, where the complete deployment guide combines executable code blocks with comprehensive narrative, generating both styled HTML and professional PDF outputs from a single source.

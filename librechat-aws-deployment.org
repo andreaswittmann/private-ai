@@ -1,6 +1,6 @@
 #+TITLE: LibreChat AWS Deployment - Live-Scripting Workflow
 #+AUTHOR: Andreas Wittmann
-#+DATE: 2025-01-31
+#+DATE: 2025-06-03
 #+OPTIONS: toc:nil
 #+TOC: headlines 4
 #+STARTUP: overview
