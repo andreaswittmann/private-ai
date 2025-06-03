@@ -3,11 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-06-03 Tue 12:20 -->
+<!-- 2025-06-03 Tue 14:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LibreChat AWS Deployment - Live-Scripting Workflow</title>
-<meta name="author" content="Privacy-Focused AI Implementation" />
+<meta name="author" content="Andreas Wittmann" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
   #content { max-width: 60em; margin: auto; }
@@ -207,112 +207,112 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga165eb2">1. Building a Privacy-Focused AI Assistant</a>
+<li><a href="#org0ed9f0b">1. Building a Privacy-Focused AI Assistant</a>
 <ul>
-<li><a href="#orgb777f8f">1.1. Project Overview and Privacy Philosophy</a></li>
-<li><a href="#org69a9a78">1.2. The Live-Scripting Methodology</a>
+<li><a href="#orgc19761a">1.1. Project Overview and Privacy Philosophy</a></li>
+<li><a href="#org5d28815">1.2. The Live-Scripting Methodology</a>
 <ul>
-<li><a href="#orga5a33b5">1.2.1. Implementation Options</a>
+<li><a href="#org4edfd67">1.2.1. Implementation Options</a>
 <ul>
-<li><a href="#org3b1d5eb">1.2.1.1. Emacs Users</a></li>
-<li><a href="#orge558d4b">1.2.1.2. Non-Emacs Users</a></li>
+<li><a href="#org7230e53">1.2.1.1. Emacs Users</a></li>
+<li><a href="#org4e69e41">1.2.1.2. Non-Emacs Users</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org730d934">1.3. Project Components</a></li>
-<li><a href="#org49bf82d">1.4. Expected Deployment Outcome</a></li>
+<li><a href="#org10e9906">1.3. Project Components</a></li>
+<li><a href="#orgd4e50d2">1.4. Expected Deployment Outcome</a></li>
 </ul>
 </li>
-<li><a href="#orge8d48ea">2. Part 1: Foundation &amp; Prerequisites</a>
+<li><a href="#org58e62ca">2. Part 1: Foundation &amp; Prerequisites</a>
 <ul>
-<li><a href="#orgc7a3f2f">2.1. Environment Setup</a>
+<li><a href="#orgf88c09b">2.1. Environment Setup</a>
 <ul>
-<li><a href="#org2abe647">2.1.1. Setting the Project Foundation</a></li>
-<li><a href="#orgf5208d1">2.1.2. Validating AWS Prerequisites</a></li>
+<li><a href="#org3ae92b9">2.1.1. Setting the Project Foundation</a></li>
+<li><a href="#org5dfed8d">2.1.2. Validating AWS Prerequisites</a></li>
 </ul>
 </li>
-<li><a href="#orgbbf8da3">2.2. Part 1 Summary</a></li>
+<li><a href="#orgcd078ff">2.2. Part 1 Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgdef8c58">3. Part 2: Infrastructure as Code</a>
+<li><a href="#org0e00eba">3. Part 2: Infrastructure as Code</a>
 <ul>
-<li><a href="#org199b403">3.1. Infrastructure Automation Benefits</a>
+<li><a href="#orgcb53775">3.1. Infrastructure Automation Benefits</a>
 <ul>
-<li><a href="#orga9efb69">3.1.1. SSH Key Generation for Secure Access</a></li>
-<li><a href="#orgda34b14">3.1.2. Terraform Configuration and Planning</a></li>
-<li><a href="#org234e0d6">3.1.3. Infrastructure Deployment Planning</a></li>
-<li><a href="#orgc561006">3.1.4. Infrastructure Deployment Execution</a></li>
-<li><a href="#org78caf2d">3.1.5. SSH Configuration for Easy Access</a></li>
-<li><a href="#org1dd7f61">3.1.6. VS Code Remote Development Integration</a></li>
+<li><a href="#org31fb9cd">3.1.1. SSH Key Generation for Secure Access</a></li>
+<li><a href="#orgde2e2e9">3.1.2. Terraform Configuration and Planning</a></li>
+<li><a href="#org865cfac">3.1.3. Infrastructure Deployment Planning</a></li>
+<li><a href="#org8269fd7">3.1.4. Infrastructure Deployment Execution</a></li>
+<li><a href="#orgc8cb30c">3.1.5. SSH Configuration for Easy Access</a></li>
+<li><a href="#org4172c3d">3.1.6. VS Code Remote Development Integration</a></li>
 </ul>
 </li>
-<li><a href="#org966a006">3.2. Use Case: Query Bedrock Model via AWS CLI</a></li>
-<li><a href="#orga15ef07">3.3. Part 2 Summary</a></li>
+<li><a href="#orgf4bd135">3.2. Use Case: Query Bedrock Model via AWS CLI</a></li>
+<li><a href="#org8ec2a70">3.3. Part 2 Summary</a></li>
 </ul>
 </li>
-<li><a href="#org8d9e033">4. Part 3: Core LibreChat Deployment</a>
+<li><a href="#orgcf6ef1e">4. Part 3: Core LibreChat Deployment</a>
 <ul>
-<li><a href="#orgcf0a5a7">4.1. The Heart of the System: LibreChat Setup</a>
+<li><a href="#orgfb7115e">4.1. The Heart of the System: LibreChat Setup</a>
 <ul>
-<li><a href="#orgc9ba6e2">4.1.1. Initial Environment Preparation</a></li>
-<li><a href="#org87cfba8">4.1.2. LibreChat Repository and Docker Setup</a></li>
+<li><a href="#org9f8f8ad">4.1.1. Initial Environment Preparation</a></li>
+<li><a href="#org49e8471">4.1.2. LibreChat Repository and Docker Setup</a></li>
 </ul>
 </li>
-<li><a href="#orgafc180a">4.2. Use Case: Connect via SSH-Tunnel, Create User, Chat with user provided api key for antropic.</a></li>
-<li><a href="#org7126ad4">4.3. Part 3 Summary</a></li>
+<li><a href="#org66919fc">4.2. Use Case: Connect via SSH-Tunnel, Create User, Chat with user provided api key for antropic.</a></li>
+<li><a href="#org7ce63e8">4.3. Part 3 Summary</a></li>
 </ul>
 </li>
-<li><a href="#org22d023c">5. Part 4: Security &amp; Production Readiness</a>
+<li><a href="#orgaac2138">5. Part 4: Security &amp; Production Readiness</a>
 <ul>
-<li><a href="#org301f912">5.1. Security Configuration Philosophy</a>
+<li><a href="#org8f36347">5.1. Security Configuration Philosophy</a>
 <ul>
-<li><a href="#org637714f">5.1.1. Local Configuration Preparation</a></li>
-<li><a href="#org4fbd169">5.1.2. SSL Certificate Generation and Deployment</a></li>
-<li><a href="#org831bcc2">5.1.3. Production Deployment with SSL</a></li>
-<li><a href="#org491e296">5.1.4. AWS Bedrock Integration Configuration</a></li>
+<li><a href="#orgb46620b">5.1.1. Local Configuration Preparation</a></li>
+<li><a href="#org9962efd">5.1.2. SSL Certificate Generation and Deployment</a></li>
+<li><a href="#org168291d">5.1.3. Production Deployment with SSL</a></li>
+<li><a href="#org6ce3c64">5.1.4. AWS Bedrock Integration Configuration</a></li>
 </ul>
 </li>
-<li><a href="#orgf809c42">5.2. Use Case: Chat with AWS Bedrock Models, Agents for Calculation and Internet Access</a></li>
-<li><a href="#org9147065">5.3. Part 4 Summary</a></li>
+<li><a href="#org9265cfc">5.2. Use Case: Chat with AWS Bedrock Models, Agents for Calculation and Internet Access</a></li>
+<li><a href="#org324fbd7">5.3. Part 4 Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgc1b9308">6. Part 5: Advanced Features - RAG Integration</a>
+<li><a href="#org44f751f">6. Part 5: Advanced Features - RAG Integration</a>
 <ul>
-<li><a href="#org3ea35eb">6.1. Why RAG Matters for Privacy</a>
+<li><a href="#org2890646">6.1. Why RAG Matters for Privacy</a>
 <ul>
-<li><a href="#org88f9b19">6.1.1. Ollama Container Deploymentssh EC2-LibreChat</a></li>
-<li><a href="#org850c007">6.1.2. RAG Environment Configuration</a></li>
-<li><a href="#orgadf92e3">6.1.3. Demonstration of RAG</a></li>
-<li><a href="#org3955e0c">6.1.4. Installating Ollama Models for Inference</a></li>
+<li><a href="#org711b63d">6.1.1. Ollama Container Deploymentssh EC2-LibreChat</a></li>
+<li><a href="#org72aa7a6">6.1.2. RAG Environment Configuration</a></li>
+<li><a href="#orgeae8910">6.1.3. Demonstration of RAG</a></li>
+<li><a href="#orgdbf8e21">6.1.4. Installating Ollama Models for Inference</a></li>
 </ul>
 </li>
-<li><a href="#org192d39b">6.2. Part 5 Summary</a></li>
+<li><a href="#org9374bba">6.2. Part 5 Summary</a></li>
 </ul>
 </li>
-<li><a href="#org2c77e9f">7. Part 6: Usinig Ollama for inferance.</a>
+<li><a href="#org2ccb430">7. Part 6: Usinig Ollama for inferance.</a>
 <ul>
 <li>
 <ul>
-<li><a href="#org60842f5">7.0.1. Change to a more powerful instance type</a></li>
-<li><a href="#org422824f">7.0.2. Installing NVIDIA Drivers and CUDA for GPU Support</a></li>
-<li><a href="#orgdb90bce">7.0.3. Updating Docker Configuration for Ollama with GPU Support</a></li>
-<li><a href="#org80180c0">7.0.4. Testing Ollama with GPU Support</a></li>
-<li><a href="#org8b8311c">7.0.5. Monitoring GPU usage</a></li>
-<li><a href="#org583d451">7.0.6. Using Ollmama for interference</a></li>
-<li><a href="#org6ebe30f">7.0.7. Upgrade to a more powerful instance type</a></li>
-<li><a href="#org8b998ab">7.0.8. Destroy the AWS resources and clean update</a></li>
+<li><a href="#org2c1f92b">7.0.1. Change to a more powerful instance type</a></li>
+<li><a href="#orgec010a3">7.0.2. Installing NVIDIA Drivers and CUDA for GPU Support</a></li>
+<li><a href="#org89ec98b">7.0.3. Updating Docker Configuration for Ollama with GPU Support</a></li>
+<li><a href="#org5d2b793">7.0.4. Testing Ollama with GPU Support</a></li>
+<li><a href="#org4935299">7.0.5. Monitoring GPU usage</a></li>
+<li><a href="#org9921d88">7.0.6. Using Ollmama for interference</a></li>
+<li><a href="#org759cba1">7.0.7. Upgrade to a more powerful instance type</a></li>
+<li><a href="#org57d8b14">7.0.8. Destroy the AWS resources and clean update</a></li>
 </ul>
 </li>
-<li><a href="#org48ec42c">7.1. Use Case: Chat with ollama models. RAG with ollama models.</a></li>
-<li><a href="#org3c5d916">7.2. Part 6 Summary</a></li>
+<li><a href="#orgf07a5f6">7.1. Use Case: Chat with ollama models. RAG with ollama models.</a></li>
+<li><a href="#org1b20fc2">7.2. Part 6 Summary</a></li>
 </ul>
 </li>
-<li><a href="#orgd74dcd2">8. Reflection &amp; Lessons Learned</a>
+<li><a href="#org4d48fd7">8. Reflection &amp; Lessons Learned</a>
 <ul>
-<li><a href="#org014fbff">8.1. Technical Insights</a></li>
-<li><a href="#org770e266">8.2. Alternative Approaches</a></li>
-<li><a href="#org0c9e2bb">8.3. Assessment</a></li>
+<li><a href="#org822cf1e">8.1. Technical Insights</a></li>
+<li><a href="#org1f873b2">8.2. Alternative Approaches</a></li>
+<li><a href="#orgfb19eb7">8.3. Assessment</a></li>
 </ul>
 </li>
 </ul>
@@ -320,13 +320,14 @@
 </div>
 <ul class="org-ul">
 <li><b>HTML Version:</b> <a href="librechat-aws-deployment.html">librechat-aws-deployment.html</a></li>
+<li><b>PDF Version:</b> <a href="librechat-aws-deployment.pdf">librechat-aws-deployment.pdf</a></li>
 </ul>
-<div id="outline-container-orga165eb2" class="outline-2">
-<h2 id="orga165eb2"><span class="section-number-2">1.</span> Building a Privacy-Focused AI Assistant</h2>
+<div id="outline-container-org0ed9f0b" class="outline-2">
+<h2 id="org0ed9f0b"><span class="section-number-2">1.</span> Building a Privacy-Focused AI Assistant</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgb777f8f" class="outline-3">
-<h3 id="orgb777f8f"><span class="section-number-3">1.1.</span> Project Overview and Privacy Philosophy</h3>
+<div id="outline-container-orgc19761a" class="outline-3">
+<h3 id="orgc19761a"><span class="section-number-3">1.1.</span> Project Overview and Privacy Philosophy</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 In an era where AI capabilities are rapidly expanding but privacy concerns remain paramount, a fundamental challenge exists: How can powerful language models be leveraged while maintaining complete control over data and interactions? 
@@ -337,8 +338,8 @@ This project demonstrates a solution—a fully self-hosted LibreChat deployment 
 </p>
 </div>
 </div>
-<div id="outline-container-org69a9a78" class="outline-3">
-<h3 id="org69a9a78"><span class="section-number-3">1.2.</span> The Live-Scripting Methodology</h3>
+<div id="outline-container-org5d28815" class="outline-3">
+<h3 id="org5d28815"><span class="section-number-3">1.2.</span> The Live-Scripting Methodology</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 This deployment uses live-scripting methodology to transform static documentation into executable workflows. Code blocks can be executed directly in Emacs (F4 key) or copied to any terminal, creating a seamless bridge between documentation and execution.
@@ -355,12 +356,12 @@ Based on the [live-scripting methodology](<a href="https://github.com/andreaswit
 <li><b><b>Version Control Integration</b></b>: Plain-text format enables proper diff tracking</li>
 </ul>
 </div>
-<div id="outline-container-orga5a33b5" class="outline-4">
-<h4 id="orga5a33b5"><span class="section-number-4">1.2.1.</span> Implementation Options</h4>
+<div id="outline-container-org4edfd67" class="outline-4">
+<h4 id="org4edfd67"><span class="section-number-4">1.2.1.</span> Implementation Options</h4>
 <div class="outline-text-4" id="text-1-2-1">
 </div>
-<div id="outline-container-org3b1d5eb" class="outline-5">
-<h5 id="org3b1d5eb"><span class="section-number-5">1.2.1.1.</span> Emacs Users</h5>
+<div id="outline-container-org7230e53" class="outline-5">
+<h5 id="org7230e53"><span class="section-number-5">1.2.1.1.</span> Emacs Users</h5>
 <div class="outline-text-5" id="text-1-2-1-1">
 <p>
 Configure live-scripting with this Emacs Lisp function:
@@ -381,8 +382,8 @@ Configure live-scripting with this Emacs Lisp function:
 </div>
 </div>
 </div>
-<div id="outline-container-orge558d4b" class="outline-5">
-<h5 id="orge558d4b"><span class="section-number-5">1.2.1.2.</span> Non-Emacs Users</h5>
+<div id="outline-container-org4e69e41" class="outline-5">
+<h5 id="org4e69e41"><span class="section-number-5">1.2.1.2.</span> Non-Emacs Users</h5>
 <div class="outline-text-5" id="text-1-2-1-2">
 <p>
 Copy code blocks to any terminal - the methodology maintains precision regardless of tools.
@@ -395,8 +396,8 @@ The deployment follows seven main phases from environment setup through advanced
 </div>
 </div>
 </div>
-<div id="outline-container-org730d934" class="outline-3">
-<h3 id="org730d934"><span class="section-number-3">1.3.</span> Project Components</h3>
+<div id="outline-container-org10e9906" class="outline-3">
+<h3 id="org10e9906"><span class="section-number-3">1.3.</span> Project Components</h3>
 <div class="outline-text-3" id="text-1-3">
 <ul class="org-ul">
 <li><b><b>Complete privacy control</b></b>: Self-hosted LibreChat with AWS Bedrock models (Claude, Nova, DeepSeek)</li>
@@ -406,8 +407,8 @@ The deployment follows seven main phases from environment setup through advanced
 </ul>
 </div>
 </div>
-<div id="outline-container-org49bf82d" class="outline-3">
-<h3 id="org49bf82d"><span class="section-number-3">1.4.</span> Expected Deployment Outcome</h3>
+<div id="outline-container-orgd4e50d2" class="outline-3">
+<h3 id="orgd4e50d2"><span class="section-number-3">1.4.</span> Expected Deployment Outcome</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 This workflow produces a functioning HTTPS-enabled LibreChat instance running on AWS, integrated with multiple Bedrock models, and enhanced with RAG capabilities under complete user control.
@@ -415,19 +416,19 @@ This workflow produces a functioning HTTPS-enabled LibreChat instance running on
 </div>
 </div>
 </div>
-<div id="outline-container-orge8d48ea" class="outline-2">
-<h2 id="orge8d48ea"><span class="section-number-2">2.</span> Part 1: Foundation &amp; Prerequisites</h2>
+<div id="outline-container-org58e62ca" class="outline-2">
+<h2 id="org58e62ca"><span class="section-number-2">2.</span> Part 1: Foundation &amp; Prerequisites</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgc7a3f2f" class="outline-3">
-<h3 id="orgc7a3f2f"><span class="section-number-3">2.1.</span> Environment Setup</h3>
+<div id="outline-container-orgf88c09b" class="outline-3">
+<h3 id="orgf88c09b"><span class="section-number-3">2.1.</span> Environment Setup</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 The following steps establish the development environment and validate the prerequisites.
 </p>
 </div>
-<div id="outline-container-org2abe647" class="outline-4">
-<h4 id="org2abe647"><span class="section-number-4">2.1.1.</span> Setting the Project Foundation</h4>
+<div id="outline-container-org3ae92b9" class="outline-4">
+<h4 id="org3ae92b9"><span class="section-number-4">2.1.1.</span> Setting the Project Foundation</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 This establishes the base project directory and validates AWS network prerequisites.
@@ -462,8 +463,8 @@ aws ec2 describe-vpcs --filters <span style="color: #3548cf;">"Name=isDefault,Va
 </p>
 </div>
 </div>
-<div id="outline-container-orgf5208d1" class="outline-4">
-<h4 id="orgf5208d1"><span class="section-number-4">2.1.2.</span> Validating AWS Prerequisites</h4>
+<div id="outline-container-org5dfed8d" class="outline-4">
+<h4 id="org5dfed8d"><span class="section-number-4">2.1.2.</span> Validating AWS Prerequisites</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 This confirms AWS environment configuration for deployment requirements.
@@ -495,8 +496,8 @@ docker --version
 </div>
 </div>
 </div>
-<div id="outline-container-orgbbf8da3" class="outline-3">
-<h3 id="orgbbf8da3"><span class="section-number-3">2.2.</span> Part 1 Summary</h3>
+<div id="outline-container-orgcd078ff" class="outline-3">
+<h3 id="orgcd078ff"><span class="section-number-3">2.2.</span> Part 1 Summary</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 The foundation phase establishes the development environment and validates prerequisites. The project directory structure is configured, AWS credentials are verified, and required tools are confirmed operational. This groundwork enables reproducible infrastructure deployment through live-scripting methodology.
@@ -504,19 +505,19 @@ The foundation phase establishes the development environment and validates prere
 </div>
 </div>
 </div>
-<div id="outline-container-orgdef8c58" class="outline-2">
-<h2 id="orgdef8c58"><span class="section-number-2">3.</span> Part 2: Infrastructure as Code</h2>
+<div id="outline-container-org0e00eba" class="outline-2">
+<h2 id="org0e00eba"><span class="section-number-2">3.</span> Part 2: Infrastructure as Code</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org199b403" class="outline-3">
-<h3 id="org199b403"><span class="section-number-3">3.1.</span> Infrastructure Automation Benefits</h3>
+<div id="outline-container-orgcb53775" class="outline-3">
+<h3 id="orgcb53775"><span class="section-number-3">3.1.</span> Infrastructure Automation Benefits</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Infrastructure automation provides significant advantages over manual console interactions. The entire environment can be reproduced with code, enabling experimentation, learning, and knowledge sharing.
 </p>
 </div>
-<div id="outline-container-orga9efb69" class="outline-4">
-<h4 id="orga9efb69"><span class="section-number-4">3.1.1.</span> SSH Key Generation for Secure Access</h4>
+<div id="outline-container-org31fb9cd" class="outline-4">
+<h4 id="org31fb9cd"><span class="section-number-4">3.1.1.</span> SSH Key Generation for Secure Access</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <p>
 This creates dedicated SSH keypairs for EC2 instance access and stores the public key for Terraform.
@@ -545,8 +546,8 @@ cat ~/.ssh/librechat_key.pub
 </p>
 </div>
 </div>
-<div id="outline-container-orgda34b14" class="outline-4">
-<h4 id="orgda34b14"><span class="section-number-4">3.1.2.</span> Terraform Configuration and Planning</h4>
+<div id="outline-container-orgde2e2e9" class="outline-4">
+<h4 id="orgde2e2e9"><span class="section-number-4">3.1.2.</span> Terraform Configuration and Planning</h4>
 <div class="outline-text-4" id="text-3-1-2">
 <p>
 This prepares the Terraform configuration files and validates the infrastructure setup.
@@ -590,8 +591,8 @@ terraform validate
 </p>
 </div>
 </div>
-<div id="outline-container-org234e0d6" class="outline-4">
-<h4 id="org234e0d6"><span class="section-number-4">3.1.3.</span> Infrastructure Deployment Planning</h4>
+<div id="outline-container-org865cfac" class="outline-4">
+<h4 id="org865cfac"><span class="section-number-4">3.1.3.</span> Infrastructure Deployment Planning</h4>
 <div class="outline-text-4" id="text-3-1-3">
 <p>
 This creates the deployment plan and reviews resource changes before applying them.
@@ -622,8 +623,8 @@ cat tfplan.json | jq <span style="color: #3548cf;">'.resource_changes | group_by
 </p>
 </div>
 </div>
-<div id="outline-container-orgc561006" class="outline-4">
-<h4 id="orgc561006"><span class="section-number-4">3.1.4.</span> Infrastructure Deployment Execution</h4>
+<div id="outline-container-org8269fd7" class="outline-4">
+<h4 id="org8269fd7"><span class="section-number-4">3.1.4.</span> Infrastructure Deployment Execution</h4>
 <div class="outline-text-4" id="text-3-1-4">
 <p>
 This executes the Terraform plan to create the AWS infrastructure resources.
@@ -667,8 +668,8 @@ aws ec2 describe-instances <span style="color: #3548cf;">\</span>
 </p>
 </div>
 </div>
-<div id="outline-container-org78caf2d" class="outline-4">
-<h4 id="org78caf2d"><span class="section-number-4">3.1.5.</span> SSH Configuration for Easy Access</h4>
+<div id="outline-container-orgc8cb30c" class="outline-4">
+<h4 id="orgc8cb30c"><span class="section-number-4">3.1.5.</span> SSH Configuration for Easy Access</h4>
 <div class="outline-text-4" id="text-3-1-5">
 <p>
 This establishes convenient SSH access configuration and tests connectivity to the deployed instance.
@@ -705,8 +706,8 @@ ssh EC2-LibreChat <span style="color: #3548cf;">'whoami &amp;&amp; date'</span>
 </p>
 </div>
 </div>
-<div id="outline-container-org1dd7f61" class="outline-4">
-<h4 id="org1dd7f61"><span class="section-number-4">3.1.6.</span> VS Code Remote Development Integration</h4>
+<div id="outline-container-org4172c3d" class="outline-4">
+<h4 id="org4172c3d"><span class="section-number-4">3.1.6.</span> VS Code Remote Development Integration</h4>
 <div class="outline-text-4" id="text-3-1-6">
 <p>
 This enables remote development capabilities by connecting VS Code to the EC2 instance.
@@ -741,8 +742,8 @@ ssh EC2-LibreChat <span style="color: #3548cf;">'whoami &amp;&amp; pwd &amp;&amp
 </div>
 </div>
 </div>
-<div id="outline-container-org966a006" class="outline-3">
-<h3 id="org966a006"><span class="section-number-3">3.2.</span> Use Case: Query Bedrock Model via AWS CLI</h3>
+<div id="outline-container-orgf4bd135" class="outline-3">
+<h3 id="orgf4bd135"><span class="section-number-3">3.2.</span> Use Case: Query Bedrock Model via AWS CLI</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 This validates AWS Bedrock model access and tests various Claude models directly via CLI.
@@ -847,8 +848,8 @@ cat output.json
 </p>
 </div>
 </div>
-<div id="outline-container-orga15ef07" class="outline-3">
-<h3 id="orga15ef07"><span class="section-number-3">3.3.</span> Part 2 Summary</h3>
+<div id="outline-container-org8ec2a70" class="outline-3">
+<h3 id="org8ec2a70"><span class="section-number-3">3.3.</span> Part 2 Summary</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Infrastructure automation through Terraform successfully provisions the AWS environment. The EC2 instance is operational with proper network security configuration. SSH access is established through dedicated keypairs, and VS Code remote development capabilities are configured. The infrastructure exists as version-controlled code, enabling consistent reproduction across different deployments.
@@ -856,19 +857,19 @@ Infrastructure automation through Terraform successfully provisions the AWS envi
 </div>
 </div>
 </div>
-<div id="outline-container-org8d9e033" class="outline-2">
-<h2 id="org8d9e033"><span class="section-number-2">4.</span> Part 3: Core LibreChat Deployment</h2>
+<div id="outline-container-orgcf6ef1e" class="outline-2">
+<h2 id="orgcf6ef1e"><span class="section-number-2">4.</span> Part 3: Core LibreChat Deployment</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orgcf0a5a7" class="outline-3">
-<h3 id="orgcf0a5a7"><span class="section-number-3">4.1.</span> The Heart of the System: LibreChat Setup</h3>
+<div id="outline-container-orgfb7115e" class="outline-3">
+<h3 id="orgfb7115e"><span class="section-number-3">4.1.</span> The Heart of the System: LibreChat Setup</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 This is where the magic happens - transforming a bare EC2 instance into a powerful, privacy-respecting AI assistant platform.
 </p>
 </div>
-<div id="outline-container-orgc9ba6e2" class="outline-4">
-<h4 id="orgc9ba6e2"><span class="section-number-4">4.1.1.</span> Initial Environment Preparation</h4>
+<div id="outline-container-org9f8f8ad" class="outline-4">
+<h4 id="org9f8f8ad"><span class="section-number-4">4.1.1.</span> Initial Environment Preparation</h4>
 <div class="outline-text-4" id="text-4-1-1">
 <p>
 This prepares the EC2 instance with system updates and creates directories for persistent storage.
@@ -909,8 +910,8 @@ sudo chmod -R 777 /opt/librechat/mongodb
 </p>
 </div>
 </div>
-<div id="outline-container-org87cfba8" class="outline-4">
-<h4 id="org87cfba8"><span class="section-number-4">4.1.2.</span> LibreChat Repository and Docker Setup</h4>
+<div id="outline-container-org49e8471" class="outline-4">
+<h4 id="org49e8471"><span class="section-number-4">4.1.2.</span> LibreChat Repository and Docker Setup</h4>
 <div class="outline-text-4" id="text-4-1-2">
 <p>
 This clones the LibreChat repository and installs Docker Compose for container management.
@@ -960,8 +961,8 @@ curl http://localhost:3080
 </div>
 </div>
 </div>
-<div id="outline-container-orgafc180a" class="outline-3">
-<h3 id="orgafc180a"><span class="section-number-3">4.2.</span> Use Case: Connect via SSH-Tunnel, Create User, Chat with user provided api key for antropic.</h3>
+<div id="outline-container-org66919fc" class="outline-3">
+<h3 id="org66919fc"><span class="section-number-3">4.2.</span> Use Case: Connect via SSH-Tunnel, Create User, Chat with user provided api key for antropic.</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 This creates an SSH tunnel to access LibreChat securely from a local browser.
@@ -989,8 +990,8 @@ Resister as: andreas@anwi.gmbh Password: private-ai
 </p>
 </div>
 </div>
-<div id="outline-container-org7126ad4" class="outline-3">
-<h3 id="org7126ad4"><span class="section-number-3">4.3.</span> Part 3 Summary</h3>
+<div id="outline-container-org7ce63e8" class="outline-3">
+<h3 id="org7ce63e8"><span class="section-number-3">4.3.</span> Part 3 Summary</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 LibreChat deployment establishes the core AI assistant platform. The application is configured with Docker containerization, and SSH tunnel access enables secure local browser connectivity. The system demonstrates successful integration with external AI services through user-provided API keys. Basic chat functionality validates the foundation for advanced features.
@@ -998,19 +999,19 @@ LibreChat deployment establishes the core AI assistant platform. The application
 </div>
 </div>
 </div>
-<div id="outline-container-org22d023c" class="outline-2">
-<h2 id="org22d023c"><span class="section-number-2">5.</span> Part 4: Security &amp; Production Readiness</h2>
+<div id="outline-container-orgaac2138" class="outline-2">
+<h2 id="orgaac2138"><span class="section-number-2">5.</span> Part 4: Security &amp; Production Readiness</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org301f912" class="outline-3">
-<h3 id="org301f912"><span class="section-number-3">5.1.</span> Security Configuration Philosophy</h3>
+<div id="outline-container-org8f36347" class="outline-3">
+<h3 id="org8f36347"><span class="section-number-3">5.1.</span> Security Configuration Philosophy</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Security isn't an afterthought in this deployment - it's built in from the beginning. Self-hosting gives us complete control, but with that comes the responsibility to secure our system properly.
 </p>
 </div>
-<div id="outline-container-org637714f" class="outline-4">
-<h4 id="org637714f"><span class="section-number-4">5.1.1.</span> Local Configuration Preparation</h4>
+<div id="outline-container-orgb46620b" class="outline-4">
+<h4 id="orgb46620b"><span class="section-number-4">5.1.1.</span> Local Configuration Preparation</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <p>
 This prepares production configuration files on the local machine and transfers them to the EC2 instance.
@@ -1044,8 +1045,8 @@ ssh EC2-LibreChat <span style="color: #3548cf;">"diff ~/LibreChat/client/nginx.c
 </p>
 </div>
 </div>
-<div id="outline-container-org4fbd169" class="outline-4">
-<h4 id="org4fbd169"><span class="section-number-4">5.1.2.</span> SSL Certificate Generation and Deployment</h4>
+<div id="outline-container-org9962efd" class="outline-4">
+<h4 id="org9962efd"><span class="section-number-4">5.1.2.</span> SSL Certificate Generation and Deployment</h4>
 <div class="outline-text-4" id="text-5-1-2">
 <p>
 This generates SSL certificates for HTTPS and configures secure communication.
@@ -1099,8 +1100,8 @@ touch librechat.yaml
 </p>
 </div>
 </div>
-<div id="outline-container-org831bcc2" class="outline-4">
-<h4 id="org831bcc2"><span class="section-number-4">5.1.3.</span> Production Deployment with SSL</h4>
+<div id="outline-container-org168291d" class="outline-4">
+<h4 id="org168291d"><span class="section-number-4">5.1.3.</span> Production Deployment with SSL</h4>
 <div class="outline-text-4" id="text-5-1-3">
 <p>
 This command sequence launches LibreChat in production mode with SSL configuration, which provides secure HTTPS access and proper certificate handling.
@@ -1151,8 +1152,8 @@ curl https://localhost
 </p>
 </div>
 </div>
-<div id="outline-container-org491e296" class="outline-4">
-<h4 id="org491e296"><span class="section-number-4">5.1.4.</span> AWS Bedrock Integration Configuration</h4>
+<div id="outline-container-org6ce3c64" class="outline-4">
+<h4 id="org6ce3c64"><span class="section-number-4">5.1.4.</span> AWS Bedrock Integration Configuration</h4>
 <div class="outline-text-4" id="text-5-1-4">
 <p>
 This creates AWS access credentials and configures LibreChat to use AWS Bedrock models.
@@ -1245,8 +1246,8 @@ open https://$<span style="color: #005e8b;">public_ip</span>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf809c42" class="outline-3">
-<h3 id="orgf809c42"><span class="section-number-3">5.2.</span> Use Case: Chat with AWS Bedrock Models, Agents for Calculation and Internet Access</h3>
+<div id="outline-container-org9265cfc" class="outline-3">
+<h3 id="org9265cfc"><span class="section-number-3">5.2.</span> Use Case: Chat with AWS Bedrock Models, Agents for Calculation and Internet Access</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 <b>Chat with different Bedrock Model:</b> Asking: Who are you? What are your capabilities? 
@@ -1264,8 +1265,8 @@ Test-Case: Find the square root of  999999937
 </p>
 </div>
 </div>
-<div id="outline-container-org9147065" class="outline-3">
-<h3 id="org9147065"><span class="section-number-3">5.3.</span> Part 4 Summary</h3>
+<div id="outline-container-org324fbd7" class="outline-3">
+<h3 id="org324fbd7"><span class="section-number-3">5.3.</span> Part 4 Summary</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 Production security implementation transforms the development system into enterprise-ready deployment. SSL certificate generation enables HTTPS encryption, and AWS Bedrock integration provides access to advanced AI models without external API dependencies. The system operates securely over public internet while maintaining data privacy through self-hosted architecture.
@@ -1273,19 +1274,19 @@ Production security implementation transforms the development system into enterp
 </div>
 </div>
 </div>
-<div id="outline-container-orgc1b9308" class="outline-2">
-<h2 id="orgc1b9308"><span class="section-number-2">6.</span> Part 5: Advanced Features - RAG Integration</h2>
+<div id="outline-container-org44f751f" class="outline-2">
+<h2 id="org44f751f"><span class="section-number-2">6.</span> Part 5: Advanced Features - RAG Integration</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-org3ea35eb" class="outline-3">
-<h3 id="org3ea35eb"><span class="section-number-3">6.1.</span> Why RAG Matters for Privacy</h3>
+<div id="outline-container-org2890646" class="outline-3">
+<h3 id="org2890646"><span class="section-number-3">6.1.</span> Why RAG Matters for Privacy</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 Retrieval Augmented Generation (RAG) represents the pinnacle of this privacy-focused approach. Instead of sending sensitive documents to external AI services, I can process them locally while still leveraging powerful cloud models for reasoning.
 </p>
 </div>
-<div id="outline-container-org88f9b19" class="outline-4">
-<h4 id="org88f9b19"><span class="section-number-4">6.1.1.</span> Ollama Container Deploymentssh EC2-LibreChat</h4>
+<div id="outline-container-org711b63d" class="outline-4">
+<h4 id="org711b63d"><span class="section-number-4">6.1.1.</span> Ollama Container Deploymentssh EC2-LibreChat</h4>
 <div class="outline-text-4" id="text-6-1-1">
 <p>
 This deploys Ollama container for local RAG processing and installs the embedding model.
@@ -1328,8 +1329,8 @@ ollama list
 </p>
 </div>
 </div>
-<div id="outline-container-org850c007" class="outline-4">
-<h4 id="org850c007"><span class="section-number-4">6.1.2.</span> RAG Environment Configuration</h4>
+<div id="outline-container-org72aa7a6" class="outline-4">
+<h4 id="org72aa7a6"><span class="section-number-4">6.1.2.</span> RAG Environment Configuration</h4>
 <div class="outline-text-4" id="text-6-1-2">
 <p>
 This configures LibreChat environment variables for local RAG processing and tests Ollama API connectivity.
@@ -1400,8 +1401,8 @@ sudo iptables -A INPUT -p tcp --dport 11434 -j ACCEPT
 </p>
 </div>
 </div>
-<div id="outline-container-orgadf92e3" class="outline-4">
-<h4 id="orgadf92e3"><span class="section-number-4">6.1.3.</span> Demonstration of RAG</h4>
+<div id="outline-container-orgeae8910" class="outline-4">
+<h4 id="orgeae8910"><span class="section-number-4">6.1.3.</span> Demonstration of RAG</h4>
 <div class="outline-text-4" id="text-6-1-3">
 <p>
 Now we select the model nova pro and start a new chat.
@@ -1416,8 +1417,8 @@ After this finishes, we can query about Andreas Wittmann again.
 </p>
 </div>
 </div>
-<div id="outline-container-org3955e0c" class="outline-4">
-<h4 id="org3955e0c"><span class="section-number-4">6.1.4.</span> Installating Ollama Models for Inference</h4>
+<div id="outline-container-orgdbf8e21" class="outline-4">
+<h4 id="orgdbf8e21"><span class="section-number-4">6.1.4.</span> Installating Ollama Models for Inference</h4>
 <div class="outline-text-4" id="text-6-1-4">
 <p>
 This installs additional Ollama models for inference and tests their functionality via API calls.
@@ -1478,8 +1479,8 @@ We need to upgrade the instance type to a more powerful instance type.
 </div>
 </div>
 </div>
-<div id="outline-container-org192d39b" class="outline-3">
-<h3 id="org192d39b"><span class="section-number-3">6.2.</span> Part 5 Summary</h3>
+<div id="outline-container-org9374bba" class="outline-3">
+<h3 id="org9374bba"><span class="section-number-3">6.2.</span> Part 5 Summary</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 RAG integration enables advanced document processing while preserving privacy. Ollama container deployment provides local embedding generation, eliminating the need to transmit sensitive documents to external services. The hybrid architecture combines local document processing with cloud-based reasoning, creating a comprehensive AI assistant that maintains complete data control.
@@ -1487,8 +1488,8 @@ RAG integration enables advanced document processing while preserving privacy. O
 </div>
 </div>
 </div>
-<div id="outline-container-org2c77e9f" class="outline-2">
-<h2 id="org2c77e9f"><span class="section-number-2">7.</span> Part 6: Usinig Ollama for inferance.</h2>
+<div id="outline-container-org2ccb430" class="outline-2">
+<h2 id="org2ccb430"><span class="section-number-2">7.</span> Part 6: Usinig Ollama for inferance.</h2>
 <div class="outline-text-2" id="text-7">
 <ul class="org-ul">
 <li>Upgrade to g5.xlarge</li>
@@ -1497,8 +1498,8 @@ RAG integration enables advanced document processing while preserving privacy. O
 <li>Demonstrate inference.</li>
 </ul>
 </div>
-<div id="outline-container-org60842f5" class="outline-4">
-<h4 id="org60842f5"><span class="section-number-4">7.0.1.</span> Change to a more powerful instance type</h4>
+<div id="outline-container-org2c1f92b" class="outline-4">
+<h4 id="org2c1f92b"><span class="section-number-4">7.0.1.</span> Change to a more powerful instance type</h4>
 <div class="outline-text-4" id="text-7-0-1">
 <p>
 The t3.medium instance type is not powerful enough to run the Ollama container.
@@ -1562,7 +1563,7 @@ yes
 </pre>
 </div>
 
-<pre class="example" id="orgb4275bc">
+<pre class="example" id="orgee0e84c">
 Note: The instance failed to start. I had to request a quota increase for the Running On-Demand G and VT instances in the AWS Service Quotas. The positive response was received within 5 hours.
 </pre>
 
@@ -1571,8 +1572,8 @@ Note: The instance failed to start. I had to request a quota increase for the Ru
 </p>
 </div>
 </div>
-<div id="outline-container-org422824f" class="outline-4">
-<h4 id="org422824f"><span class="section-number-4">7.0.2.</span> Installing NVIDIA Drivers and CUDA for GPU Support</h4>
+<div id="outline-container-orgec010a3" class="outline-4">
+<h4 id="orgec010a3"><span class="section-number-4">7.0.2.</span> Installing NVIDIA Drivers and CUDA for GPU Support</h4>
 <div class="outline-text-4" id="text-7-0-2">
 <p>
 This installs NVIDIA drivers and CUDA toolkit to enable GPU acceleration for AI workloads.
@@ -1691,8 +1692,8 @@ docker run --rm --gpus all nvidia/cuda:12.2.0-base-ubuntu22.04 nvidia-smi
 </p>
 </div>
 </div>
-<div id="outline-container-orgdb90bce" class="outline-4">
-<h4 id="orgdb90bce"><span class="section-number-4">7.0.3.</span> Updating Docker Configuration for Ollama with GPU Support</h4>
+<div id="outline-container-org89ec98b" class="outline-4">
+<h4 id="org89ec98b"><span class="section-number-4">7.0.3.</span> Updating Docker Configuration for Ollama with GPU Support</h4>
 <div class="outline-text-4" id="text-7-0-3">
 <p>
 This updates the Docker configuration to enable GPU access for Ollama containers.
@@ -1737,8 +1738,8 @@ docker logs $(docker ps -q --filter <span style="color: #005e8b;">name</span>=ol
 </p>
 </div>
 </div>
-<div id="outline-container-org80180c0" class="outline-4">
-<h4 id="org80180c0"><span class="section-number-4">7.0.4.</span> Testing Ollama with GPU Support</h4>
+<div id="outline-container-org5d2b793" class="outline-4">
+<h4 id="org5d2b793"><span class="section-number-4">7.0.4.</span> Testing Ollama with GPU Support</h4>
 <div class="outline-text-4" id="text-7-0-4">
 <p>
 In the LibreChat GUI start a chat with ollama model: mistral-nemo:latests.
@@ -1751,8 +1752,8 @@ I switch to xlam:7b and ask the same question. It takes about 1 minute to load t
 </p>
 </div>
 </div>
-<div id="outline-container-org8b8311c" class="outline-4">
-<h4 id="org8b8311c"><span class="section-number-4">7.0.5.</span> Monitoring GPU usage</h4>
+<div id="outline-container-org4935299" class="outline-4">
+<h4 id="org4935299"><span class="section-number-4">7.0.5.</span> Monitoring GPU usage</h4>
 <div class="outline-text-4" id="text-7-0-5">
 <p>
 This installs GPU monitoring tools to track GPU utilization and performance.
@@ -1792,8 +1793,8 @@ q
 </p>
 </div>
 </div>
-<div id="outline-container-org583d451" class="outline-4">
-<h4 id="org583d451"><span class="section-number-4">7.0.6.</span> Using Ollmama for interference</h4>
+<div id="outline-container-org9921d88" class="outline-4">
+<h4 id="org9921d88"><span class="section-number-4">7.0.6.</span> Using Ollmama for interference</h4>
 <div class="outline-text-4" id="text-7-0-6">
 <p>
 So far we have only used the ollama container to generate embeddings
@@ -1957,8 +1958,8 @@ Different models work für inference. But they are very slow. I have to wait abo
 </p>
 </div>
 </div>
-<div id="outline-container-org6ebe30f" class="outline-4">
-<h4 id="org6ebe30f"><span class="section-number-4">7.0.7.</span> Upgrade to a more powerful instance type</h4>
+<div id="outline-container-org759cba1" class="outline-4">
+<h4 id="org759cba1"><span class="section-number-4">7.0.7.</span> Upgrade to a more powerful instance type</h4>
 <div class="outline-text-4" id="text-7-0-7">
 <p>
 The g4dn.xlarge instance type is not powerful enough to run the ollama models for inference. The inference takes too long.
@@ -1970,7 +1971,7 @@ g6.12xlarge
 </p>
 
 <p>
-I follow the instruction in:  <a href="#org60842f5">Change to a more powerful instance type</a>
+I follow the instruction in:  <a href="#org2c1f92b">Change to a more powerful instance type</a>
 </p>
 
 <p>
@@ -1998,8 +1999,8 @@ More analysis is needed to choose the optimal model for this instance type and a
 </p>
 </div>
 </div>
-<div id="outline-container-org8b998ab" class="outline-4">
-<h4 id="org8b998ab"><span class="section-number-4">7.0.8.</span> Destroy the AWS resources and clean update</h4>
+<div id="outline-container-org57d8b14" class="outline-4">
+<h4 id="org57d8b14"><span class="section-number-4">7.0.8.</span> Destroy the AWS resources and clean update</h4>
 <div class="outline-text-4" id="text-7-0-8">
 <p>
 This safely removes all AWS infrastructure and cleans up credentials to avoid ongoing costs.
@@ -2034,12 +2035,12 @@ rm ./aws-credentials.json
 </p>
 </div>
 </div>
-<div id="outline-container-org48ec42c" class="outline-3">
-<h3 id="org48ec42c"><span class="section-number-3">7.1.</span> Use Case: Chat with ollama models. RAG with ollama models.</h3>
+<div id="outline-container-orgf07a5f6" class="outline-3">
+<h3 id="orgf07a5f6"><span class="section-number-3">7.1.</span> Use Case: Chat with ollama models. RAG with ollama models.</h3>
 </div>
 
-<div id="outline-container-org3c5d916" class="outline-3">
-<h3 id="org3c5d916"><span class="section-number-3">7.2.</span> Part 6 Summary</h3>
+<div id="outline-container-org1b20fc2" class="outline-3">
+<h3 id="org1b20fc2"><span class="section-number-3">7.2.</span> Part 6 Summary</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
 Part 6 accomplishes the transformation of the LibreChat deployment from a basic inference system to a high-performance GPU-accelerated AI platform capable of running local large language models. The section establishes GPU infrastructure through instance type upgrades to g4dn.xlarge and g6.12xlarge configurations, enabling NVIDIA driver and CUDA toolkit installation for hardware acceleration support.
@@ -2059,12 +2060,12 @@ This phase establishes a fully functional local AI inference platform that maint
 </div>
 </div>
 </div>
-<div id="outline-container-orgd74dcd2" class="outline-2">
-<h2 id="orgd74dcd2"><span class="section-number-2">8.</span> Reflection &amp; Lessons Learned</h2>
+<div id="outline-container-org4d48fd7" class="outline-2">
+<h2 id="org4d48fd7"><span class="section-number-2">8.</span> Reflection &amp; Lessons Learned</h2>
 <div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-org014fbff" class="outline-3">
-<h3 id="org014fbff"><span class="section-number-3">8.1.</span> Technical Insights</h3>
+<div id="outline-container-org822cf1e" class="outline-3">
+<h3 id="org822cf1e"><span class="section-number-3">8.1.</span> Technical Insights</h3>
 <div class="outline-text-3" id="text-8-1">
 <p>
 The implementation reveals several key considerations. Docker Compose provides an effective balance between simplicity and functionality for multi-container orchestration. Security-first design through initial HTTPS implementation creates more robust foundations than retrofitting SSL later.
@@ -2083,8 +2084,8 @@ Resource requirements for RAG functionality with Ollama require careful instance
 </p>
 </div>
 </div>
-<div id="outline-container-org770e266" class="outline-3">
-<h3 id="org770e266"><span class="section-number-3">8.2.</span> Alternative Approaches</h3>
+<div id="outline-container-org1f873b2" class="outline-3">
+<h3 id="org1f873b2"><span class="section-number-3">8.2.</span> Alternative Approaches</h3>
 <div class="outline-text-3" id="text-8-2">
 <p>
 Infrastructure alternatives include Kubernetes for production scaling, AWS ECS/Fargate for serverless containers, and local Docker Desktop for development. Security enhancements could involve VPN access restriction, WAF integration, or comprehensive monitoring through CloudWatch or Prometheus.
@@ -2099,8 +2100,8 @@ Future enhancements might include multi-modal support for images and audio, cust
 </p>
 </div>
 </div>
-<div id="outline-container-org0c9e2bb" class="outline-3">
-<h3 id="org0c9e2bb"><span class="section-number-3">8.3.</span> Assessment</h3>
+<div id="outline-container-orgfb19eb7" class="outline-3">
+<h3 id="orgfb19eb7"><span class="section-number-3">8.3.</span> Assessment</h3>
 <div class="outline-text-3" id="text-8-3">
 <p>
 This project demonstrates that privacy-focused AI systems are both technically feasible and practically deployable. The combination of open-source tools, cloud infrastructure, and security design creates a platform that maintains user privacy while delivering enterprise-grade AI capabilities.
@@ -2127,8 +2128,8 @@ This approach establishes user control over AI infrastructure where data soverei
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 2025-01-31</p>
-<p class="author">Author: Privacy-Focused AI Implementation</p>
-<p class="date">Created: 2025-06-03 Tue 12:20</p>
+<p class="author">Author: Andreas Wittmann</p>
+<p class="date">Created: 2025-06-03 Tue 14:16</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

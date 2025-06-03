@@ -57,6 +57,21 @@ coverage.xml
 *.py,cover
 .hypothesis/
 
+# LaTeX build artifacts
+_minted-*/
+*.tex
+*.aux
+*.log
+*.out
+*.toc
+*.nav
+*.snm
+*.vrb
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.pdf_tex
+
 # Backup files
 *.bak
 *.backup

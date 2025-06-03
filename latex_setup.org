@@ -55,3 +55,24 @@
 #+Latex_Header: \emergencystretch=.1\hsize
 #+Latex_Header: \hbadness = 3000
 
+#+LaTeX_HEADER: % Scientific paper author styling
+#+LaTeX_HEADER: \usepackage{titling}
+#+LaTeX_HEADER: 
+#+LaTeX_HEADER: % Define custom author command
+#+LaTeX_HEADER: \newcommand{\customauthor}{%
+#+LaTeX_HEADER:   \begin{center}
+#+LaTeX_HEADER:   {\small Andreas Wittmann IT-Beratung GmbH} \\
+#+LaTeX_HEADER:   {\small andreas.wittmann@anwi.gmbh}
+#+LaTeX_HEADER:   \end{center}
+#+LaTeX_HEADER: }
+#+LaTeX_HEADER: 
+#+LaTeX_HEADER: % Configure title formatting
+#+LaTeX_HEADER: \renewcommand{\maketitlehooka}{\centering}
+#+LaTeX_HEADER: \setlength{\droptitle}{-2em}
+#+LaTeX_HEADER: \pretitle{\begin{center}\Large\bfseries}
+#+LaTeX_HEADER: \posttitle{\par\end{center}\vskip 0.5em}
+#+LaTeX_HEADER: \preauthor{}
+#+LaTeX_HEADER: \postauthor{\customauthor\vskip 0.2em}
+#+LaTeX_HEADER: \predate{\begin{center}\normalsize\itshape}
+#+LaTeX_HEADER: \postdate{\par\end{center}\vskip 1em}
+

@@ -1,5 +1,5 @@
 #+TITLE: LibreChat AWS Deployment - Live-Scripting Workflow
-#+AUTHOR: Privacy-Focused AI Implementation
+#+AUTHOR: Andreas Wittmann
 #+DATE: 2025-01-31
 #+OPTIONS: toc:nil
 #+TOC: headlines 4
@@ -9,6 +9,7 @@
 
 
 - *HTML Version:* [[file:librechat-aws-deployment.html][librechat-aws-deployment.html]]
+- *PDF Version:* [[file:librechat-aws-deployment.pdf][librechat-aws-deployment.pdf]]
 
 
 * Building a Privacy-Focused AI Assistant
