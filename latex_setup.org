@@ -1,0 +1,57 @@
+#+LaTeX_CLASS: koma-article
+#+xxxLATEX_COMPILER: lualatex
+#+LATEX_COMPILER: xelatex
+#+LaTeX_HEADER: \usepackage{xcolor}
+#+LaTeX_HEADER: \usepackage{minted}
+#+LaTeX_HEADER: \usepackage[ngerman]{babel}
+#+LaTeX_HEADER: \usepackage{paralist}
+#+LaTeX_HEADER: \usepackage{fancyhdr}
+#+LaTeX_HEADER: \usepackage{lastpage}
+#+LaTeX_HEADER: \let\itemize\compactitem
+#+LaTeX_HEADER: \let\description\compactdesc
+#+LaTeX_HEADER: \let\enumerate\compactenum
+#+LaTeX_HEADER: \definecolor{light-gray}{gray}{0.95}
+#+LaTeX_HEADER: \definecolor{medium-blue}{rgb}{0.0, 0.0, 0.8}
+#+LaTeX_HEADER:	\definecolor{dark-red}{rgb}{0.55, 0.0, 0.0}
+#+LaTeX_HEADER:	\definecolor{firebrick}{rgb}{0.7, 0.13, 0.13}
+#+LaTeX_HEADER: \hypersetup{colorlinks=true, linkcolor=firebrick, urlcolor=medium-blue, breaklinks=true}
+
+# #+Latex_Header: % Settings from hyperref document
+# #+Latex_Header: % Page layout.
+# #+Latex_Header: \advance\textwidth by 1.1in
+# #+Latex_Header: \advance\oddsidemargin by -.55in
+# #+Latex_Header: \advance\evensidemargin by -.55in
+# #+Latex_Header: %
+# #+Latex_Header: \advance\textheight by 1in
+# #+Latex_Header: \advance\topmargin by -.5in
+# #+Latex_Header: \advance\footskip by -.5in
+# #+Latex_Header: %
+# #+Latex_Header: \pagestyle{headings}
+# #+Latex_Header: %
+# #+Latex_Header: % Avoid some overfull boxes.
+# #+Latex_Header: \emergencystretch=.1\hsize
+# #+Latex_Header: \hbadness = 3000
+
+#+Latex_Header: % Settings from hyperref document angepasst
+#+Latex_Header: % Page layout.
+#+Latex_Header: \advance\textwidth by 1.1in
+#+Latex_Header: \advance\oddsidemargin by -.35in
+#+Latex_Header: \advance\evensidemargin by -.35in
+#+Latex_Header: %
+#+Latex_Header: \advance\textheight by 1in
+#+Latex_Header: \advance\topmargin by -.3in
+#+Latex_Header: \advance\footskip by -.3in
+#+Latex_Header: %
+#+Latex_Header: % Custom footer with GitHub project reference
+#+Latex_Header: \pagestyle{fancy}
+#+Latex_Header: \fancyhf{}
+#+Latex_Header: \fancyhead[C]{\leftmark}
+#+Latex_Header: \fancyfoot[L]{\footnotesize Part of the Private AI project: \href{https://github.com/andreaswittmann/private-ai}{github.com/andreaswittmann/private-ai}}
+#+Latex_Header: \fancyfoot[R]{\footnotesize Page \thepage\ of \pageref{LastPage}}
+#+Latex_Header: \renewcommand{\headrulewidth}{0.4pt}
+#+Latex_Header: \renewcommand{\footrulewidth}{0.4pt}
+#+Latex_Header: %
+#+Latex_Header: % Avoid some overfull boxes.
+#+Latex_Header: \emergencystretch=.1\hsize
+#+Latex_Header: \hbadness = 3000
+
