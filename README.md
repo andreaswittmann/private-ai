@@ -1,4 +1,5 @@
 # Private AI - Self-Hosted LibreChat with Complete Data Control
+Featrued in Blog-Post on: https://anwi.gmbh/?p=1014&lang=en
 
 ![Private AI - Privacy-Focused AI Assistant](diagrams/private-ai_illustration.png)
 
