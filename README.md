@@ -5,9 +5,11 @@ Featrued in Blog-Post on: https://anwi.gmbh/?p=1014&lang=en
 
 *A privacy-focused AI assistant running on your own infrastructure with complete data control*
 
-A containerized LibreChat deployment providing flexible privacy controls for AI interactions. Choose between fully local operation or hybrid cloud integration while maintaining complete control over your data and conversations.
+This project demonstrates a [LibreChat](https://github.com/danny-avila/LibreChat) configuration and deployment on AWS, using a mix of Bedrock and local Ollama Models. [LibreChat](https://github.com/danny-avila/LibreChat) is an open-source, ChatGPT-style chat platform with a mature, enterprise-grade foundation that ensures full privacy and rich configurability.
 
-This project showcases a **live-scripting documentation approach** using Emacs Org-mode, where the complete deployment guide combines executable code blocks with comprehensive narrative, generating both styled HTML and professional PDF outputs from a single source.
+This project provides a specialized deployment of LibreChat, offering flexible privacy controls for AI interactions. You can choose between fully local operation or hybrid cloud integration—while always maintaining complete control over your data and conversations.
+
+This project also showcases a **[live-scripting](https://github.com/andreaswittmann/live-scripting) documentation approach** using Emacs Org-mode, where the complete deployment guide combines executable code blocks with comprehensive narrative, generating both styled HTML and professional PDF outputs from a single source.
 
 ## Project Motivation
 
